@@ -1,31 +1,40 @@
-var expect = chai.expect;
+define(['../src/js/models'], function(Models) {
 
-describe('Pomodoro', function() {
+    describe('Pomodoro', function() {
 
-    var clock;
+        var clock;
 
-    before(function () {
-        clock = sinon.useFakeTimers();
-    });
-
-    after(function () {
-        clock.restore();
-    });
-
-    describe('initialize', function() {
-        it('should have default values', function() {
-            var pmdr = new Pomodoro();
-            expect(pmdr.get('duration')).to.be.equal(25 * 60 * 1000);
-            expect(pmdr.get('startedAt')).to.be.null;
-            expect(pmdr.get('terminatedAt')).to.be.null;
+        before(function () {
+            clock = sinon.useFakeTimers();
         });
-    });
 
-    describe('start()', function() {
-        it('should save the started date', function() {
-            var pmdr = new Pomodoro();
-            pmdr.start();
-            expect(pmdr.get('startedAt')).to.be.equal(Date.now());
+        after(function () {
+            clock.restore();
+        });
+
+        describe('initialize', function() {
+            it('should have default values', function() {
+                var pmdr = new Models.Pomodoro();
+                expect(pmdr.get('duration')).to.be.equal(25 * 60 * 1000);
+                expect(pmdr.get('startedAt')).to.be.null;
+                expect(pmdr.get('terminatedAt')).to.be.null;
+            });
+            it('should take a duration argument', function() {
+                var pmdr = new Models.Pomodoro({'duration': 10 * 60 * 1000});
+                expect(pmdr.get('duration')).to.be.equal(10 * 60 * 1000);
+            });
+        });
+
+        describe('start()', function() {
+            it('should save the started date', function() {
+                var pmdr = new Models.Pomodoro();
+                pmdr.start();
+                expect(pmdr.get('startedAt')).to.be.equal(Date.now());
+            });
+            it('should call the terminate function when over', function() {
+                var pmdr = new Models.Pomodoro({'duration': 10 * 60 * 1000});
+                pmdr.start();
+            });
         });
     });
 });

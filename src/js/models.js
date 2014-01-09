@@ -1,4 +1,4 @@
-require(['backbone'], function(Backbone) {
+define(['backbone'], function(Backbone) {
     "use strict";
 
     var Models = {};
