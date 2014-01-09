@@ -1,16 +1,18 @@
-(function(exports, Backbone, _) {
+require(['backbone'], function(Backbone) {
     "use strict";
 
-    var Pomodoro = Backbone.Model.extend({
+    var Models = {};
+
+    Models.Pomodoro = Backbone.Model.extend({
         defaults: {
-            'duration': 25 * 60 * 1000,
-            'startedAt': null,
-            'terminatedAt': null,
-            'wasInterrupted': null,
+            'duration': 25 * 60 * 1000
         },
 
         initialize: function() {
             this._timeout = null;
+            this.set('startedAt', null);
+            this.set('terminatedAt', null);
+            this.set('wasInterrupted', null);
             _.bindAll(this, 'trigger', '_terminate');
         },
 
@@ -44,11 +46,10 @@
          * Marks the pomodoro as terminated
          */
         _terminate: function(interrupted) {
-            console.log(interrupted);
             this.set('terminatedAt', Date.now());
             this.set('wasInterrupted', interrupted);
         },
     });
 
-    exports.Pomodoro = Pomodoro;
-})(this, Backbone, _);
+    return Models;
+});
