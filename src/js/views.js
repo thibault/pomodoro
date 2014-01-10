@@ -36,7 +36,7 @@ define(['backbone'], function(Backbone) {
             if (this.model) {
                 time = 'running';
             } else {
-                time = 'stopped';
+                time = '00:00';
             }
 
             this.$el.html(time);
