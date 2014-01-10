@@ -3,6 +3,10 @@ define(['backbone'], function(Backbone) {
 
     var Models = {};
 
+    /**
+     * Reprensents a single pomodoro,
+     * i.e a timer with a beginning and an end.
+     */
     Models.Pomodoro = Backbone.Model.extend({
         defaults: {
             'duration': 25 * 60 * 1000
