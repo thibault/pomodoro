@@ -31,7 +31,7 @@ require.config({
     }
 });
 
-require(['require', 'mocha', 'chai', 'sinon'], function(require, mocha, chai) {
+require(['require', 'chai', 'sinon'], function(require, chai) {
     expect = chai.expect;
     mocha.setup('bdd');
 

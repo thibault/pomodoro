@@ -24,7 +24,10 @@ module.exports = function(grunt) {
         },
 
         mocha: {
-            all: ['test/tests.html']
+            all: ['test/tests.html'],
+            options: {
+                run: false,
+            }
         },
 
         connect: {
@@ -53,7 +56,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-casperjs');
 
     grunt.registerTask('test', [
-        //'mocha',
+        'mocha',
         'connect',
         'casperjs'
     ]);

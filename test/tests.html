@@ -10,6 +10,11 @@
     <div id="messages"></div>
     <div id="fixtures"></div>
 
+    <!-- Mocha MUST be load via a script tag,
+         because it breaks grunt-mocha otherwise.
+    -->
+    <script src="vendor/mocha.js"></script>
+
     <script data-main="test_runner.js" src="../src/js/vendor/require.js"></script>
 </body>
 </html>
