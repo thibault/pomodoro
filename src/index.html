@@ -6,7 +6,30 @@
 </head>
 <body>
     <h1 id="timer"></h1>
-    <div id="control-bar"></div>
+    <div id="control-bar">
+        <button
+            id="start-pomodoro-btn"
+            class="control start-control"
+            data-action="start"
+            data-duration="1500000">Start</button>
+
+        <button
+            id="start-break-btn"
+            class="control start-control"
+            data-action="start"
+            data-duration="300000">Break</button>
+
+        <button
+            id="start-lbreak-btn"
+            class="control start-control"
+            data-action="start"
+            data-duration="900000">Long break</button>
+
+        <button
+            id="stop-btn"
+            class="control stop-control"
+            data-action="stop">Stop</button>
+    </div>
     <script data-main="js/main" src="js/vendor/require.js"></script>
 </body>
 </html>
