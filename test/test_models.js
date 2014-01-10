@@ -13,7 +13,7 @@ define(['../src/js/models'], function(Models) {
         });
 
         describe('initialize', function() {
-            it('should have default values', function() {
+            it('should set reasonable default values', function() {
                 var pmdr = new Models.Pomodoro();
                 expect(pmdr.get('duration')).to.be.equal(25 * 60 * 1000);
                 expect(pmdr.get('startedAt')).to.be.null;
@@ -25,7 +25,7 @@ define(['../src/js/models'], function(Models) {
             });
         });
 
-        describe('start()', function() {
+        describe('start', function() {
             it('should save the started date', function() {
                 var pmdr = new Models.Pomodoro();
                 pmdr.start();
@@ -34,7 +34,12 @@ define(['../src/js/models'], function(Models) {
             it('should call the terminate function when over', function() {
                 var pmdr = new Models.Pomodoro({'duration': 10 * 60 * 1000});
                 pmdr.start();
+
+                var spy = sinon.spy(pmdr._terminate);
+                clock.tick(10 * 60 * 1000 + 10);
+                expect(spy.calledOnce).to.be.true;
             });
+            it('should take a callback as an argument');
         });
     });
 });

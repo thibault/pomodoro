@@ -13,7 +13,7 @@ define(['backbone'], function(Backbone) {
             this.set('startedAt', null);
             this.set('terminatedAt', null);
             this.set('wasInterrupted', null);
-            _.bindAll(this, 'trigger', '_terminate');
+            _.bindAll(this, '_triggerFinishedEvent', '_terminate');
         },
 
         /**
@@ -24,9 +24,11 @@ define(['backbone'], function(Backbone) {
         start: function(callback) {
             this.set('startedAt', Date.now());
 
-            this._timeout = _.delay(function() {
-                this.trigger('finished')
-            }, this.duration, {'interrupted': false});
+            this._timeout = _.delay(
+                this._triggerFinishedEvent,
+                this.duration,
+                {interrupted: false}
+            );
 
             this.listenTo(this, 'finished', this._terminate);
             if (callback) {
@@ -43,9 +45,21 @@ define(['backbone'], function(Backbone) {
         },
 
         /**
+         * Trigger the finished event.
+         *
+         * We need this method so we can register it
+         * with `bindAll`
+         **/
+        _triggerFinishedEvent: function() {
+            console.log('trigger');
+            this.trigger('finished');
+        },
+
+        /**
          * Marks the pomodoro as terminated
          */
         _terminate: function(interrupted) {
+            console.log('terminate');
             this.set('terminatedAt', Date.now());
             this.set('wasInterrupted', interrupted);
         },
