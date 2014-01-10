@@ -35,7 +35,7 @@ require(['require', 'mocha', 'chai', 'sinon'], function(require, mocha, chai) {
     expect = chai.expect;
     mocha.setup('bdd');
 
-    require(['test/test_models'], function() {
+    require(['test/models/pomodoro'], function() {
         mocha.run();
     });
 });

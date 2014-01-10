@@ -1,4 +1,4 @@
-define(['../src/js/models'], function(Models) {
+define(['../../src/js/models'], function(Models) {
 
     describe('A pomodoro', function() {
 
