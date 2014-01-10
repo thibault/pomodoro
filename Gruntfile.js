@@ -25,13 +25,38 @@ module.exports = function(grunt) {
 
         mocha: {
             all: ['test/tests.html']
+        },
+
+        connect: {
+            server: {
+                options: {
+                    port: 4242,
+                    base: '<%= pomodoro.src %>'
+                }
+            }
+        },
+
+        casperjs: {
+            options: {
+                async: {
+                    parallel: false
+                }
+            },
+            files: ['test/casperjs/**/*.js']
         }
+
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-mocha');
+    grunt.loadNpmTasks('grunt-casperjs');
 
-    grunt.registerTask('test', []);
+    grunt.registerTask('test', [
+        //'mocha',
+        'connect',
+        'casperjs'
+    ]);
 
     // Default task(s).
     grunt.registerTask('default', ['jshint', 'test']);
