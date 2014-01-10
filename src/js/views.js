@@ -23,6 +23,10 @@ define(['backbone'], function(Backbone) {
         render: function() {
             return this;
         },
+
+        /**
+         * Trigger events depending on clicked buttons.
+         */
         onClick: function(event) {
             var target = event.target;
             var action = target.getAttribute('data-action');
