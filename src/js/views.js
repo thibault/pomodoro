@@ -5,10 +5,41 @@ define(['backbone'], function(Backbone) {
 
     Views.TimerView = Backbone.View.extend({
         initialize: function() {
+            this.model = null;
+            this._interval = null;
+            this.render();
+
+            _.bindAll(this, 'render');
+        },
+
+        /**
+         * Starts ticking the timer, updating it every second.
+         */
+        startRunning: function(pomodoro) {
+            this.model = pomodoro;
+            clearInterval(this._interval);
+            this._interval = setInterval(this.render, 1000);
             this.render();
         },
+
+        /**
+         * Stops the timer ticks.
+         */
+        stopRunning: function() {
+            clearInterval(this._interval);
+            this.model = null;
+            this.render();
+        },
+
         render: function() {
-            this.$el.html('00:00');
+            var time;
+            if (this.model) {
+                time = 'running';
+            } else {
+                time = 'stopped';
+            }
+
+            this.$el.html(time);
             return this;
         }
     });

@@ -35,7 +35,7 @@ define(['backbone'], function(Backbone) {
             );
 
             if (callback) {
-                this.listenTo(this, 'finished', callback);
+                this.listenTo(this, 'pomodoroFinished', callback);
             }
         },
 
@@ -53,7 +53,7 @@ define(['backbone'], function(Backbone) {
         _terminate: function(interrupted) {
             this.set('terminatedAt', Date.now());
             this.set('wasInterrupted', interrupted);
-            this.trigger('finished');
+            this.trigger('pomodoroFinished');
         },
     });
 

@@ -1,39 +1,52 @@
 define([
-    'backbone', 'jquery', 'models', 'views'
+    'underscore', 'backbone', 'jquery', 'models', 'views'
 ],
-function(Backbone, $, Models, Views) {
+function(_, Backbone, $, Models, Views) {
     "use strict";
 
     var App = function() {
         this._currentPomodoro = null;
 
         _.extend(this, Backbone.Events);
+        _.bindAll(this, 'onPomodoroFinished');
     };
 
     App.prototype.initializeViews = function() {
-        var timer = $('#timer');
-        this.timerView = new Views.TimerView({el: timer});
-
-        var controlBar = $('#control-bar');
-        this.controlView = new Views.ControlView({el: controlBar});
+        this.timerView = new Views.TimerView({el: '#timer'});
+        this.controlView = new Views.ControlView({el: '#control-bar'});
     };
 
+    /**
+     * Manually starts a pomodoro.
+     *
+     * Creates the pomodoro object, and run the countdown timer.
+     *
+     */
     App.prototype.startPomodoro = function(options) {
-        console.log('starting pomodoro');
         var duration = options.duration;
-        var pomodoro = new Models.Pomodoro({duration: duration});
-        pomodoro.start(this.onPomodoroFinished);
-
-        this._currentPomodoro = pomodoro;
+        this._currentPomodoro= new Models.Pomodoro({duration: duration});
+        this._currentPomodoro.start(this.onPomodoroFinished);
+        this.timerView.startRunning(this._currentPomodoro);
     };
 
+    /**
+     * Manually interrupts the pomodoro.
+     *
+     * Don't perform any other operations, because all the cleanup code
+     * will be called when the pomodoro finished event will be raised.
+     *
+     */
     App.prototype.interruptPomodoro = function() {
-        console.log('interrupting pomodoro');
         this._currentPomodoro.interrupt();
     };
 
+    /**
+     * Perform all operations required when a pomodoro is finished,
+     * whether it was manually interrupted or not.
+     *
+     */
     App.prototype.onPomodoroFinished = function() {
-        console.log('pomodoro finished');
+        this.timerView.stopRunning(this.currentPomodoro);
     };
 
     App.prototype.bindEvents = function() {
