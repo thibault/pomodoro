@@ -62,7 +62,7 @@ define(['backbone'], function(Backbone) {
             var target = event.target;
             var action = target.getAttribute('data-action');
 
-            if (action == 'stop') {
+            if (action === 'stop') {
                 this.trigger('timerInterrupted');
             } else {
                 var duration = target.getAttribute('data-duration');
