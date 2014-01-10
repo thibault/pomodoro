@@ -15,5 +15,7 @@ require.config({
     }
 });
 
-require(['models', 'views'], function(models, views) {
+require(['app'], function(App) {
+    var app = new App();
+    app.run();
 });
