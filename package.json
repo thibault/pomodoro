@@ -10,6 +10,10 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "~1.8.1",
-    "sinon": "~1.7.3"
+    "sinon": "~1.7.3",
+    "grunt": "~0.4.2",
+    "grunt-mocha": "~0.4.7",
+    "grunt-contrib-jshint": "~0.8.0",
+    "jshint-stylish": "~0.1.5"
   }
 }
