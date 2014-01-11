@@ -34,7 +34,7 @@ define(['backbone', 'src/js/utils'], function(Backbone, utils) {
         render: function() {
             var time;
             if (this.model) {
-                var remainingTime = this.model.getRemainingTime();
+                var remainingTime = this.model.remainingTime();
                 time = utils.prettifyTime(remainingTime);
             } else {
                 time = '00:00';
