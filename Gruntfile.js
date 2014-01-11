@@ -55,11 +55,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
     grunt.loadNpmTasks('grunt-casperjs');
 
+    grunt.registerTask('casper', ['connect', 'casperjs']);
+
     grunt.registerTask('test', [
         'mocha',
-        'connect',
-        'casperjs'
+        'casper'
     ]);
+
 
     // Default task(s).
     grunt.registerTask('default', ['jshint', 'test']);
