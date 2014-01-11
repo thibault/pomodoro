@@ -48,6 +48,13 @@ define(['backbone'], function(Backbone) {
         },
 
         /**
+         * Returns the number of ms before end of pomodoro.
+         */
+        remainingTime: function() {
+            return 0;
+        },
+
+        /**
          * Marks the pomodoro as terminated
          */
         _terminate: function(interrupted) {

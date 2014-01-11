@@ -51,5 +51,20 @@ define(['src/js/models'], function(Models) {
                 expect(pmdr.get('wasInterrupted')).to.be.true;
             });
         });
+
+        describe('remainingTime', function() {
+            it('should return the number of ms before the end', function() {
+                var pmdr = new Models.Pomodoro({duration: 25 * 60 * 1000});
+                pmdr.start();
+
+                expect(pmdr.remainingTime()).to.be.equal(25 * 50 * 1000);
+
+                clock.tick(1000);
+                expect(pmdr.remainingTime()).to.be.equal(25 * 50 * 1000 - 1000);
+            });
+
+            it('should return null if the pomodoro is not started yet');
+            it('should return null if the pomodoro is already finished');
+        });
     });
 });
