@@ -1,5 +1,5 @@
 define([
-    'underscore', 'backbone', 'jquery', 'models', 'views'
+    'underscore', 'backbone', 'jquery', 'src/js/models', 'src/js/views'
 ],
 function(_, Backbone, $, Models, Views) {
     "use strict";

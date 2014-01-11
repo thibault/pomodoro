@@ -1,4 +1,4 @@
-define(['backbone'], function(Backbone) {
+define(['backbone', 'src/js/utils'], function(Backbone, utils) {
     "use strict";
 
     var Views = {};
@@ -34,7 +34,8 @@ define(['backbone'], function(Backbone) {
         render: function() {
             var time;
             if (this.model) {
-                time = 'running';
+                var remainingTime = this.model.getRemainingTime();
+                time = utils.prettifyTime(remainingTime);
             } else {
                 time = '00:00';
             }
