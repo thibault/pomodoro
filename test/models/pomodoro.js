@@ -57,14 +57,23 @@ define(['src/js/models'], function(Models) {
                 var pmdr = new Models.Pomodoro({duration: 25 * 60 * 1000});
                 pmdr.start();
 
-                expect(pmdr.remainingTime()).to.be.equal(25 * 50 * 1000);
+                expect(pmdr.remainingTime()).to.be.equal(25 * 60 * 1000);
 
                 clock.tick(1000);
-                expect(pmdr.remainingTime()).to.be.equal(25 * 50 * 1000 - 1000);
+                expect(pmdr.remainingTime()).to.be.equal(25 * 60 * 1000 - 1000);
             });
 
-            it('should return null if the pomodoro is not started yet');
-            it('should return null if the pomodoro is already finished');
+            it('should return null if the pomodoro is not started yet', function() {
+                var pmdr = new Models.Pomodoro({duration: 25 * 60 * 1000});
+                expect(pmdr.remainingTime()).to.be.null;
+            });
+
+            it('should return null if the pomodoro is already finished', function() {
+                var pmdr = new Models.Pomodoro({duration: 1000});
+                pmdr.start();
+                clock.tick(1500);
+                expect(pmdr.remainingTime()).to.be.null;
+            });
         });
     });
 });

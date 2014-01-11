@@ -51,7 +51,16 @@ define(['backbone'], function(Backbone) {
          * Returns the number of ms before end of pomodoro.
          */
         remainingTime: function() {
-            return 0;
+            var remainingTime;
+
+            if (this.get('startedAt') !== null && this.get('terminatedAt') === null) {
+                var ellapsedTime = Date.now() - this.get('startedAt');
+                remainingTime = this.get('duration') - ellapsedTime;
+            } else {
+                remainingTime = null;
+            }
+
+            return remainingTime;
         },
 
         /**
