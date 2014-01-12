@@ -4,7 +4,7 @@ define({
      * the mm:ss form.
      */
     prettifyTime: function(time) {
-        var totalSeconds = parseInt(time / 1000);
+        var totalSeconds = Math.round(time / 1000);
         var minutes = parseInt(totalSeconds / 60);
         seconds = totalSeconds % 60;
 

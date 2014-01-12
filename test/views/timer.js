@@ -19,13 +19,18 @@ define(['src/js/models', 'src/js/views'], function(Models, Views) {
 
         it('should be updated as soon as the pomodoro starts', function() {
             var pomodoro = new Models.Pomodoro({duration: 10000});
+            pomodoro.start();
+
             var view = new Views.TimerView();
             view.startRunning(pomodoro);
+
             expect(view.$el.text()).to.be.equal('00:10');
         });
 
         it('should be decremented every second', function() {
             var pomodoro = new Models.Pomodoro({duration: 1500000});
+            pomodoro.start();
+
             var view = new Views.TimerView();
             view.startRunning(pomodoro);
 

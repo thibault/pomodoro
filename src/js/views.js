@@ -17,9 +17,9 @@ define(['backbone', 'src/js/utils'], function(Backbone, utils) {
          */
         startRunning: function(pomodoro) {
             this.model = pomodoro;
-            clearInterval(this._interval);
-            this._interval = setInterval(this.render, 1000);
             this.render();
+            clearInterval(this._interval);
+            this._interval = setInterval(this.render, 100);
         },
 
         /**
@@ -40,7 +40,7 @@ define(['backbone', 'src/js/utils'], function(Backbone, utils) {
                 time = '00:00';
             }
 
-            this.$el.html(time);
+            this.$el.text(time);
             return this;
         }
     });
