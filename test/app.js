@@ -1,4 +1,4 @@
-define(['src/js/app'], function(App) {
+define(['js/app'], function(App) {
 
     describe('Notification', function() {
         var clock;

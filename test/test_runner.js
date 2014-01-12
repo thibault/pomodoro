@@ -1,12 +1,12 @@
 require.config({
-    baseUrl: '../',
+    baseUrl: '../src/',
     paths: {
-        jquery: 'src/js/vendor/jquery',
-        underscore: 'src/js/vendor/underscore',
-        backbone: 'src/js/vendor/backbone',
-        chai: 'test/vendor/chai',
-        mocha: 'test/vendor/mocha',
-        sinon: 'test/vendor/sinon'
+        jquery: 'js/vendor/jquery',
+        underscore: 'js/vendor/underscore',
+        backbone: 'js/vendor/backbone',
+        chai: '../test/vendor/chai',
+        mocha: '../test/vendor/mocha',
+        sinon: '../test/vendor/sinon'
     },
     shim: {
         'mocha': {
@@ -36,10 +36,10 @@ require(['require', 'chai', 'sinon'], function(require, chai) {
     mocha.setup('bdd');
 
     require([
-        'test/models/pomodoro',
-        'test/views/timer',
-        'test/utils',
-        'test/app'
+        '../test/models/pomodoro',
+        '../test/views/timer',
+        '../test/utils',
+        '../test/app'
     ], function() {
         mocha.run();
     });

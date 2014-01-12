@@ -1,4 +1,4 @@
-define(['src/js/models', 'src/js/views'], function(Models, Views) {
+define(['js/models', 'js/views'], function(Models, Views) {
 
     describe('The timer', function() {
 

@@ -1,9 +1,9 @@
 require.config({
-    baseUrl: '..',
+    baseUrl: '.',
     paths: {
-        'jquery': 'src/js/vendor/jquery',
-        'underscore': 'src/js/vendor/underscore',
-        'backbone': 'src/js/vendor/backbone',
+        'jquery': 'js/vendor/jquery',
+        'underscore': 'js/vendor/underscore',
+        'backbone': 'js/vendor/backbone',
     },
     shim: {
         underscore: {
@@ -16,7 +16,7 @@ require.config({
     }
 });
 
-require(['src/js/app'], function(App) {
+require(['js/app'], function(App) {
     var app = new App();
     app.run();
 });

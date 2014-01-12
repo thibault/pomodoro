@@ -1,4 +1,4 @@
-define(['backbone', 'src/js/utils'], function(Backbone, utils) {
+define(['backbone', 'js/utils'], function(Backbone, utils) {
     "use strict";
 
     var Views = {};

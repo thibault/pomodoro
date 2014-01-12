@@ -1,4 +1,4 @@
-define(['src/js/utils'], function(utils) {
+define(['js/utils'], function(utils) {
     describe('prettifyTime', function() {
         it('should display a ms value in the mm:ss form', function() {
             expect(utils.prettifyTime(1000)).to.be.equal('00:01');

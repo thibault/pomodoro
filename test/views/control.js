@@ -1,4 +1,4 @@
-define(['src/js/views'], function(Views) {
+define(['js/views'], function(Views) {
 
     describe('Control bar', function() {
 
