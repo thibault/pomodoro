@@ -28,6 +28,9 @@ casper.test.begin('The app should load flawlessly', 1, function suite(test) {
 casper.test.begin('Start pomodoro button', function(test) {
     casper.start(url, function() {
         // Wait for requirejs to load all scripts
+        casper.evaluate(function() {
+            localStorage.clear();
+        }, {});
         this.wait(100);
     });
 
@@ -56,6 +59,9 @@ casper.test.begin('Start pomodoro button', function(test) {
 casper.test.begin('Button activations', function(test) {
     casper.start(url, function() {
         // Wait for requirejs to load all scripts
+        casper.evaluate(function() {
+            localStorage.clear();
+        }, {});
         this.wait(100);
     });
 

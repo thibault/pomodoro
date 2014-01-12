@@ -9,14 +9,14 @@ define(['backbone'], function(Backbone) {
      */
     Models.Pomodoro = Backbone.Model.extend({
         defaults: {
-            'duration': 25 * 60 * 1000
+            duration: 25 * 60 * 1000,
+            startedAt: null,
+            terminatedAt: null,
+            wasInterrupted: null
         },
 
         initialize: function() {
             this._timeout = null;
-            this.set('startedAt', null);
-            this.set('terminatedAt', null);
-            this.set('wasInterrupted', null);
             _.bindAll(this, '_terminate');
         },
 
@@ -56,6 +56,9 @@ define(['backbone'], function(Backbone) {
             if (this.get('startedAt') !== null && this.get('terminatedAt') === null) {
                 var ellapsedTime = Date.now() - this.get('startedAt');
                 remainingTime = this.get('duration') - ellapsedTime;
+                if (remainingTime < 0) {
+                    remainingTime = null;
+                }
             } else {
                 remainingTime = null;
             }
