@@ -2,10 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pomodoro</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/project.css" />
 </head>
 <body>
-    <h1 id="timer">00:00</h1>
+
+    <nav class="top-bar" data-topbar>
+        <ul class="title-area">
+            <li class="name">
+                <h1><a href="/">Pomodoro</a></h1>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="row">
+    <div class="small-6 large-centered columns center">
+
+    <span id="timer">00:00</span>
     <div id="control-bar">
         <button
             id="start-pomodoro-btn"
@@ -13,31 +29,31 @@
             data-action="start"
             data-type="pomodoro"
             data-duration="1500000">Start</button>
-
         <button
             id="start-break-btn"
             class="control start-control"
             data-action="start"
             data-type="break"
             data-duration="300000">Break</button>
-
         <button
             id="start-lbreak-btn"
             class="control start-control"
             data-action="start"
             data-type="break"
             data-duration="900000">Long break</button>
-
         <button
             id="stop-btn"
             class="control stop-control"
             data-action="stop">Stop</button>
+    </div>
 
-        <audio id="audioAlert">
-            <source src="audio/bong.ogg" type="audio/ogg" />
-            <source src="audio/bong.mp3" type="audio/mpeg" />
-            <source src="audio/bong.wav" type="audio/wave" />
-        </audio>
+    <audio id="audioAlert">
+        <source src="audio/bong.ogg" type="audio/ogg" />
+        <source src="audio/bong.mp3" type="audio/mpeg" />
+        <source src="audio/bong.wav" type="audio/wave" />
+    </audio>
+
+    </div>
     </div>
     <script data-main="js/main" src="js/vendor/require.js"></script>
 </body>
