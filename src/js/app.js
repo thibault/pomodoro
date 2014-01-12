@@ -39,6 +39,8 @@ function(_, Backbone, $, Models, Views, utils) {
         this._currentPomodoro.start();
         this.timerView.startRunning(this._currentPomodoro);
 
+        this.controlView.renderForPomodoro(this._currentPomodoro);
+
         this.listenTo(this._currentPomodoro, 'pomodoroCompleted', this.onPomodoroCompleted);
         this.listenTo(this._currentPomodoro, 'pomodoroFinished', this.onPomodoroFinished);
     };
@@ -72,6 +74,7 @@ function(_, Backbone, $, Models, Views, utils) {
      */
     App.prototype.onPomodoroFinished = function() {
         this.timerView.stopRunning(this._currentPomodoro);
+        this.controlView.resetView();
         this.stopListening(this._currentPomodoro);
         this._currentPomodoro.destroy();
         this._currentPomodoro = null;

@@ -52,7 +52,30 @@ define(['backbone', 'src/js/utils'], function(Backbone, utils) {
         initialize: function() {
             this.render();
         },
+        renderForPomodoro: function(pomodoro) {
+            this.model = pomodoro;
+            this.render();
+        },
+        resetView: function() {
+            this.model = null;
+            this.render();
+        },
+
+        /**
+         * Disable the control buttons depending of the state of the
+         * current pomodoro.
+         */
         render: function() {
+            var startButtons = this.$el.find('button.start-control');
+            var stopButton = this.$el.find('button.stop-control');
+
+            if (this.model) {
+                startButtons.prop('disabled', true);
+                stopButton.prop('disabled', false);
+            } else {
+                startButtons.prop('disabled', false);
+                stopButton.prop('disabled', true);
+            }
             return this;
         },
 
