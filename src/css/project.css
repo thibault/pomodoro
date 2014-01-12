@@ -14,3 +14,9 @@ span#timer {
 div#control-bar {
     text-align: center;
 }
+div.center {
+    text-align: center;
+}
+label {
+    display: inline;
+}
