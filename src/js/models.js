@@ -44,7 +44,7 @@ define(['backbone'], function(Backbone) {
          */
         interrupt: function() {
             clearTimeout(this._timeout);
-            this._terminate(true);
+            this._terminate({interrupted: true});
         },
 
         /**
@@ -66,9 +66,9 @@ define(['backbone'], function(Backbone) {
         /**
          * Marks the pomodoro as terminated
          */
-        _terminate: function(interrupted) {
+        _terminate: function(options) {
             this.set('terminatedAt', Date.now());
-            this.set('wasInterrupted', interrupted);
+            this.set('wasInterrupted', options.interrupted);
             this.trigger('pomodoroFinished');
         },
     });
