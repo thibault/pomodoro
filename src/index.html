@@ -19,7 +19,7 @@
     </nav>
 
     <div class="row">
-    <div class="small-6 large-centered columns center">
+    <div class="small-6 small-centered columns center">
 
     <span id="timer">00:00</span>
     <div id="control-bar">
@@ -48,22 +48,28 @@
     </div>
 
     <div class="center">
-        <label for="dynamicTitleCb">Show dynamic title</label>
-        <input type="checkbox" id="dynamicTitleCb" />
+        <a href="#" data-reveal-id="configurationModal">Configure stuff and things</a>
     </div>
 
-    <form id="configuration-form" action="#">
-        <label for="pomodoro-duration">Pomodoro:</label>
-        <input type="text" id="pomodoro-duration" name="pomodoro-duration" />
-
-        <label for="break-duration">Break:</label>
-        <input type="text" id="break-duration" name="break-duration" />
-
-        <label for="lbreak-duration">Long break:</label>
-        <input type="text" id="lbreak-duration" name="lbreak-duration" />
-    </form>
-
     </div>
+    </div>
+
+    <div id="configurationModal" class="reveal-modal small" data-reveal>
+        <h2>Configure stuff</h2>
+        <form id="configuration-form" action="#">
+            <label for="pomodoro-duration">Pomodoro:</label>
+            <input type="text" id="pomodoro-duration" name="pomodoro-duration" />
+
+            <label for="break-duration">Break:</label>
+            <input type="text" id="break-duration" name="break-duration" />
+
+            <label for="lbreak-duration">Long break:</label>
+            <input type="text" id="lbreak-duration" name="lbreak-duration" />
+
+            <label for="dynamicTitleCb" class="inline">Show dynamic title</label>
+            <input type="checkbox" id="dynamicTitleCb" />
+        </form>
+        <a class="close-reveal-modal">&#215;</a>
     </div>
 
     <audio id="audioAlert">

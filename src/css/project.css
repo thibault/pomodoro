@@ -1,12 +1,13 @@
+.top-bar {
+    margin-bottom: 2rem;
+}
 span#timer {
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-weight: 300;
   font-style: normal;
   color: #222222;
   text-rendering: optimizeLegibility;
-  margin-top: 0.2rem;
   margin-bottom: 0.5rem;
-  line-height: 1.4;
   font-size: 8.600rem;
   text-align: center;
   display: block;
@@ -17,6 +18,6 @@ div#control-bar {
 div.center {
     text-align: center;
 }
-label {
+label.inline {
     display: inline;
 }
