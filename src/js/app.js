@@ -76,7 +76,6 @@ function(_, Backbone, $, Models, Views, utils) {
         this.timerView.stopRunning(this._currentPomodoro);
         this.controlView.resetView();
         this.stopListening(this._currentPomodoro);
-        this._currentPomodoro.destroy();
         this._currentPomodoro = null;
     };
 
