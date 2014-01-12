@@ -4,6 +4,7 @@ require.config({
         jquery: 'js/vendor/jquery',
         underscore: 'js/vendor/underscore',
         backbone: 'js/vendor/backbone',
+        localstorage: 'js/vendor/backbone.localStorage',
         chai: '../test/vendor/chai',
         mocha: '../test/vendor/mocha',
         sinon: '../test/vendor/sinon'

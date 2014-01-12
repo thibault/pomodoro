@@ -1,11 +1,12 @@
 require.config({
     baseUrl: '.',
     paths: {
-        'jquery': 'js/vendor/jquery',
-        'underscore': 'js/vendor/underscore',
-        'backbone': 'js/vendor/backbone',
-        'foundation': 'js/vendor/foundation',
-        'reveal': 'js/vendor/foundation.reveal'
+        jquery: 'js/vendor/jquery',
+        underscore: 'js/vendor/underscore',
+        backbone: 'js/vendor/backbone',
+        localstorage: 'js/vendor/backbone.localStorage',
+        foundation: 'js/vendor/foundation',
+        reveal: 'js/vendor/foundation.reveal'
     },
     shim: {
         underscore: {

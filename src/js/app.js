@@ -69,6 +69,7 @@ function(_, Backbone, $, Models, Views, utils) {
         this.notifyUser();
         if (this._currentPomodoro.get('type') === 'pomodoro') {
             this.finishedPomodoros.add(this._currentPomodoro);
+            this._currentPomodoro.save();
         }
     };
 
@@ -149,6 +150,8 @@ function(_, Backbone, $, Models, Views, utils) {
                 this.listenTo(this._currentPomodoro, 'pomodoroFinished', this.onPomodoroFinished);
             }
         }
+
+        this.finishedPomodoros.fetch();
     };
 
     App.prototype.run = function() {

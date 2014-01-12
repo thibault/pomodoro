@@ -1,10 +1,10 @@
-define(['backbone'], function(Backbone) {
+define(['backbone', 'localstorage'], function(Backbone) {
     "use strict";
 
     var Models = {};
 
     /**
-     * Reprensents a single pomodoro,
+     * Represents a single pomodoro,
      * i.e a timer with a beginning and an end.
      */
     Models.Pomodoro = Backbone.Model.extend({
@@ -83,7 +83,8 @@ define(['backbone'], function(Backbone) {
     });
 
     Models.PomodoroCollection = Backbone.Collection.extend({
-        model: Models.Pomodoro
+        model: Models.Pomodoro,
+        localStorage: new Backbone.LocalStorage('Pomodoros')
     });
 
     return Models;
