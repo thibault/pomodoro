@@ -1,7 +1,7 @@
 define([
-    'underscore', 'backbone', 'jquery', 'src/js/models', 'src/js/views'
+    'underscore', 'backbone', 'jquery', 'src/js/models', 'src/js/views', 'src/js/utils'
 ],
-function(_, Backbone, $, Models, Views) {
+function(_, Backbone, $, Models, Views, utils) {
     "use strict";
 
     var App = function() {
@@ -48,7 +48,6 @@ function(_, Backbone, $, Models, Views) {
     App.prototype.onPomodoroFinished = function() {
         this.timerView.stopRunning(this._currentPomodoro);
 
-        console.log(this._currentPomodoro.get('wasInterrupted'));
         if (! this._currentPomodoro.get('wasInterrupted')) {
             this.notifyUser();
         }
@@ -60,6 +59,8 @@ function(_, Backbone, $, Models, Views) {
     App.prototype.notifyUser = function() {
         var audioElt = document.getElementById('audioAlert');
         audioElt.play();
+
+        utils.notify('End', {body: 'test'});
     };
 
     App.prototype.bindEvents = function() {
