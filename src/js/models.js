@@ -69,8 +69,18 @@ define(['backbone'], function(Backbone) {
         _terminate: function(options) {
             this.set('terminatedAt', Date.now());
             this.set('wasInterrupted', options.interrupted);
+
+            if (options.interrupted) {
+                this.trigger('pomodoroInterrupted');
+            } else {
+                this.trigger('pomodoroCompleted');
+            }
             this.trigger('pomodoroFinished');
         },
+    });
+
+    Models.PomodoroCollection = Backbone.Collection.extend({
+        model: Models.Pomodoro
     });
 
     return Models;

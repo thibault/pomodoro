@@ -24,6 +24,20 @@ define(['src/js/models'], function(Models) {
             expect(pmdr.get('duration')).to.be.equal(10 * 60 * 1000);
         });
 
+        it('should emit a signal when it\'s completed', function(done) {
+            var pmdr = new Models.Pomodoro({'duration': 1000});
+            pmdr.start();
+            pmdr.on('pomodoroCompleted', done);
+            clock.tick(1100);
+        });
+
+        it('should emit a signal when it\'s interrupted', function(done) {
+            var pmdr = new Models.Pomodoro({'duration': 1000});
+            pmdr.start();
+            pmdr.on('pomodoroInterrupted', done);
+            pmdr.interrupt();
+        });
+
         describe('start', function() {
             it('should save the started date', function() {
                 var pmdr = new Models.Pomodoro();

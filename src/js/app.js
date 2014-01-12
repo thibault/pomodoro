@@ -6,9 +6,10 @@ function(_, Backbone, $, Models, Views, utils) {
 
     var App = function() {
         this._currentPomodoro = null;
+        this.finishedPomodoros = new Models.PomodoroCollection();
 
         _.extend(this, Backbone.Events);
-        _.bindAll(this, 'onPomodoroFinished');
+        _.bindAll(this, 'onPomodoroFinished', 'onPomodoroCompleted');
     };
 
     App.prototype.initializeViews = function() {
@@ -30,8 +31,11 @@ function(_, Backbone, $, Models, Views, utils) {
             duration: duration,
             type: type
         });
-        this._currentPomodoro.start(this.onPomodoroFinished);
+        this._currentPomodoro.start();
         this.timerView.startRunning(this._currentPomodoro);
+
+        this.listenTo(this._currentPomodoro, 'pomodoroCompleted', this.onPomodoroCompleted);
+        this.listenTo(this._currentPomodoro, 'pomodoroFinished', this.onPomodoroFinished);
     };
 
     /**
@@ -46,16 +50,24 @@ function(_, Backbone, $, Models, Views, utils) {
     };
 
     /**
+     * Perferm all operations required when a pomodoro is completed
+     * (not interrupted).
+     */
+    App.prototype.onPomodoroCompleted = function() {
+        this.notifyUser();
+        if (this._currentPomodoro.get('type') === 'pomodoro') {
+            this.finishedPomodoros.add(this._currentPomodoro);
+        }
+    };
+
+    /**
      * Perform all operations required when a pomodoro is finished,
      * whether it was manually interrupted or not.
      *
      */
     App.prototype.onPomodoroFinished = function() {
         this.timerView.stopRunning(this._currentPomodoro);
-
-        if (! this._currentPomodoro.get('wasInterrupted')) {
-            this.notifyUser();
-        }
+        this.stopListening(this._currentPomodoro);
     };
 
     /**
