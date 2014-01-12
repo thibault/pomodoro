@@ -106,5 +106,35 @@ define(['backbone', 'js/utils'], function(Backbone, utils) {
         }
     });
 
+    /**
+     * Updates the app configuration when the form is modified.
+     */
+    Views.ConfigurationView = Backbone.View.extend({
+        events: {
+            change: 'onConfigurationChange'
+        },
+        buttons: [
+            { field: '#pomodoro-duration', button: '#start-pomodoro-btn' },
+            { field: '#break-duration', button: '#start-break-btn' },
+            { field: '#lbreak-duration', button: '#start-lbreak-btn' }
+        ],
+        initialize: function() {
+            _.each(this.buttons, function(data) {
+                var button = $(data.button);
+                var ms = button.data('duration');
+                var input = $(data.field);
+                input.val(ms / 60000);
+            });
+        },
+        onConfigurationChange: function() {
+            _.each(this.buttons, function(data) {
+                var input = $(data.field);
+                var minutes = input.val();
+                var button = $(data.button);
+                button.attr('data-duration', minutes * 60 * 1000);
+            });
+        }
+    });
+
     return Views;
 });

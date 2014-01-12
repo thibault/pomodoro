@@ -18,6 +18,7 @@ function(_, Backbone, $, Models, Views, utils) {
         this.timerView = new Views.TimerView({el: '#timer'});
         this.timerView._renderTitle = this.dynamicTitleCb.prop('checked');
         this.controlView = new Views.ControlView({el: '#control-bar'});
+        this.configurationView = new Views.ConfigurationView({el: '#configuration-form'});
     };
 
     /**
