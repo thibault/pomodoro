@@ -24,6 +24,11 @@ function(_, Backbone, $, Models, Views, utils) {
      *
      */
     App.prototype.startPomodoro = function(options) {
+        // If a pomodoro is already running, do nothing
+        if (this._currentPomodoro) {
+            return;
+        }
+
         var duration = options.duration;
         var type = options.type;
 
@@ -68,6 +73,8 @@ function(_, Backbone, $, Models, Views, utils) {
     App.prototype.onPomodoroFinished = function() {
         this.timerView.stopRunning(this._currentPomodoro);
         this.stopListening(this._currentPomodoro);
+        this._currentPomodoro.destroy();
+        this._currentPomodoro = null;
     };
 
     /**
