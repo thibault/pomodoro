@@ -7,13 +7,16 @@ function(_, Backbone, $, Models, Views, utils) {
     var App = function() {
         this._currentPomodoro = null;
         this.finishedPomodoros = new Models.PomodoroCollection();
+        this.dynamicTitleCb = $('#dynamicTitleCb');
 
         _.extend(this, Backbone.Events);
-        _.bindAll(this, 'onPomodoroFinished', 'onPomodoroCompleted');
+        _.bindAll(this,
+            'onPomodoroFinished', 'onPomodoroCompleted', 'toggleTitle');
     };
 
     App.prototype.initializeViews = function() {
         this.timerView = new Views.TimerView({el: '#timer'});
+        this.timerView._renderTitle = this.dynamicTitleCb.prop('checked');
         this.controlView = new Views.ControlView({el: '#control-bar'});
     };
 
@@ -101,6 +104,12 @@ function(_, Backbone, $, Models, Views, utils) {
     App.prototype.bindEvents = function() {
         this.listenTo(this.controlView, 'timerStarted', this.startPomodoro);
         this.listenTo(this.controlView, 'timerInterrupted', this.interruptPomodoro);
+
+        this.dynamicTitleCb.on('click', this.toggleTitle);
+    };
+
+    App.prototype.toggleTitle = function(event) {
+        this.timerView._renderTitle = this.dynamicTitleCb.prop('checked');
     };
 
     /**

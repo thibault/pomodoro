@@ -7,6 +7,7 @@ define(['backbone', 'js/utils'], function(Backbone, utils) {
         initialize: function() {
             this.model = null;
             this._interval = null;
+            this._renderTitle = false;
             this.render();
 
             _.bindAll(this, 'render');
@@ -41,6 +42,12 @@ define(['backbone', 'js/utils'], function(Backbone, utils) {
             }
 
             this.$el.text(time);
+
+            if (this._renderTitle) {
+                $('title').text(time);
+            } else {
+                $('title').text('Pomodoro');
+            }
             return this;
         }
     });
