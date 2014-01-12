@@ -24,7 +24,12 @@ function(_, Backbone, $, Models, Views, utils) {
      */
     App.prototype.startPomodoro = function(options) {
         var duration = options.duration;
-        this._currentPomodoro= new Models.Pomodoro({duration: duration});
+        var type = options.type;
+
+        this._currentPomodoro= new Models.Pomodoro({
+            duration: duration,
+            type: type
+        });
         this._currentPomodoro.start(this.onPomodoroFinished);
         this.timerView.startRunning(this._currentPomodoro);
     };
@@ -58,9 +63,15 @@ function(_, Backbone, $, Models, Views, utils) {
      */
     App.prototype.notifyUser = function() {
         var audioElt = document.getElementById('audioAlert');
-        audioElt.play();
+        if (audioElt) {
+            audioElt.play();
+        }
 
-        utils.notify('End', {body: 'test'});
+        if (this._currentPomodoro.get('type') === 'pomodoro') {
+            utils.notify('The pomodoro is over', {body: 'Go easy on the coffee.'});
+        } else {
+            utils.notify('Let\'s get back to work', {body: 'Focus now!'});
+        }
     };
 
     App.prototype.bindEvents = function() {

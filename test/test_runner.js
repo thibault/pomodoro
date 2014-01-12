@@ -38,7 +38,8 @@ require(['require', 'chai', 'sinon'], function(require, chai) {
     require([
         'test/models/pomodoro',
         'test/views/timer',
-        'test/utils'
+        'test/utils',
+        'test/app'
     ], function() {
         mocha.run();
     });

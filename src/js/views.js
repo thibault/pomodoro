@@ -62,12 +62,16 @@ define(['backbone', 'src/js/utils'], function(Backbone, utils) {
         onClick: function(event) {
             var target = event.target;
             var action = target.getAttribute('data-action');
+            var type = target.getAttribute('data-type');
 
             if (action === 'stop') {
                 this.trigger('timerInterrupted');
             } else {
                 var duration = target.getAttribute('data-duration');
-                this.trigger('timerStarted', {duration: duration});
+                this.trigger('timerStarted', {
+                    duration: duration,
+                    type: type
+                });
             }
         }
     });
