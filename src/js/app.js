@@ -46,7 +46,20 @@ function(_, Backbone, $, Models, Views) {
      *
      */
     App.prototype.onPomodoroFinished = function() {
-        this.timerView.stopRunning(this.currentPomodoro);
+        this.timerView.stopRunning(this._currentPomodoro);
+
+        console.log(this._currentPomodoro.get('wasInterrupted'));
+        if (! this._currentPomodoro.get('wasInterrupted')) {
+            this.notifyUser();
+        }
+    };
+
+    /**
+     * Notify user of the end of pomodoro.
+     */
+    App.prototype.notifyUser = function() {
+        var audioElt = document.getElementById('audioAlert');
+        audioElt.play();
     };
 
     App.prototype.bindEvents = function() {

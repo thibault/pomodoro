@@ -11,7 +11,7 @@
             id="start-pomodoro-btn"
             class="control start-control"
             data-action="start"
-            data-duration="1500000">Start</button>
+            data-duration="1500">Start</button>
 
         <button
             id="start-break-btn"
@@ -29,6 +29,12 @@
             id="stop-btn"
             class="control stop-control"
             data-action="stop">Stop</button>
+
+        <audio id="audioAlert">
+            <source src="audio/bong.ogg" type="audio/ogg" />
+            <source src="audio/bong.mp3" type="audio/mpeg" />
+            <source src="audio/bong.wav" type="audio/wave" />
+        </audio>
     </div>
     <script data-main="js/main" src="js/vendor/require.js"></script>
 </body>
