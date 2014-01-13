@@ -7,13 +7,14 @@ span#timer {
   font-style: normal;
   color: #222222;
   text-rendering: optimizeLegibility;
-  margin-bottom: 0.5rem;
-  font-size: 10rem;
+  font-size: 10em;
   text-align: center;
   display: block;
 }
 div#control-bar {
     text-align: center;
+    margin-top: 1.5em;
+    margin-bottom: 2em;
 }
 div.center {
     text-align: center;

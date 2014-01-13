@@ -23,9 +23,6 @@
         </section>
     </nav>
 
-    <div class="row">
-    <div class="small-6 small-centered columns center">
-
     <span id="timer">00:00</span>
     <div id="control-bar">
         <button
@@ -52,9 +49,10 @@
             data-action="stop">Stop</button>
     </div>
 
-    <div id="statsChart"></div>
-
-    </div>
+    <div class="row">
+        <hr />
+        <h2>Weekly stats</h2>
+        <div id="statsChart"></div>
     </div>
 
     <div id="configurationModal" class="reveal-modal small" data-reveal>
@@ -80,6 +78,7 @@
         <source src="audio/bong.mp3" type="audio/mpeg" />
         <source src="audio/bong.wav" type="audio/wave" />
     </audio>
+
     <script data-main="js/main" src="js/vendor/require.js"></script>
 </body>
 </html>
