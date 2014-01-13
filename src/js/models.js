@@ -84,7 +84,8 @@ define(['backbone', 'localstorage'], function(Backbone) {
 
     Models.PomodoroCollection = Backbone.Collection.extend({
         model: Models.Pomodoro,
-        localStorage: new Backbone.LocalStorage('Pomodoros')
+        localStorage: new Backbone.LocalStorage('Pomodoros'),
+        comparator: 'startedAt'
     });
 
     return Models;

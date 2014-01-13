@@ -138,9 +138,10 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
 
     Views.ChartView = Backbone.View.extend({
         initialize: function() {
-            this.margin = {top: 20, right: 20, bottom: 30, left: 40};
-            this.width = this.$el.width() - this.margin.left - this.margin.right;
-            this.height = this.$el.height() - this.margin.top - this.margin.bottom;
+            this.initializeChart();
+
+            _.bindAll(this, 'render');
+            this.listenTo(this.collection, 'add', this.render);
         },
 
         /**
@@ -171,9 +172,13 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
         },
 
         /**
-         * Generates the chart svg structure.
+         * Creates the initial svg structure for the chart.
          */
-        renderChart: function() {
+        initializeChart: function() {
+            this.margin = {top: 20, right: 20, bottom: 30, left: 40};
+            this.width = this.$el.width() - this.margin.left - this.margin.right;
+            this.height = this.$el.height() - this.margin.top - this.margin.bottom;
+
             this.svg = d3.select(this.el).append("svg")
                 .attr('class', 'chart')
                 .attr("width", this.$el.width())
@@ -181,41 +186,13 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
               .append("g")
                 .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
-            var format = d3.time.format("%Y-%m-%d");
-            var xDomain = this.data.map(function(d) { return d.date; });
-            this.x = d3.scale.ordinal()
-                .domain(xDomain)
-                .rangeRoundBands([0, this.width], 0.1);
-
-            var yDomain = [0, d3.max(this.data, function(d) { return d.pomodoros; })];
-            this.y = d3.scale.linear()
-                .domain(yDomain)
-                .range([this.height, 0]);
-        },
-
-        /**
-         * Display axes and legends on chart.
-         */
-        renderAxes: function() {
-            var xAxis = d3.svg.axis()
-                .scale(this.x)
-                .ticks(d3.time.day, 1)
-                .orient("bottom");
-
-            this.svg.append("g")
+            this.xAxis = this.svg.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(0," + this.height + ")")
-                .call(xAxis);
+                .attr("transform", "translate(0," + this.height + ")");
 
-            var yAxis = d3.svg.axis()
-                .scale(this.y)
-                .tickFormat(d3.format("d"))
-                .ticks(d3.max(this.data, function(d) { return d.pomodoros; }))
-                .orient("left");
-
-            this.svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis)
+            this.yAxis = this.svg.append("g")
+                .attr("class", "y axis");
+            this.yAxis
                 .append("text")
                 .attr("transform", "rotate(-90)")
                 .attr("y", 6)
@@ -225,26 +202,85 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
         },
 
         /**
+         * Generates the chart svg structure.
+         */
+        getScales: function(data) {
+            var format = d3.time.format("%Y-%m-%d");
+            var xDomain = data.map(function(d) { return d.date; });
+            var x = d3.scale.ordinal()
+                .domain(xDomain)
+                .rangeRoundBands([0, this.width], 0.1);
+
+            var yDomain = [0, d3.max(data, function(d) { return d.pomodoros; })];
+            var y = d3.scale.linear()
+                .domain(yDomain)
+                .range([this.height, 0]);
+
+            return {x: x, y: y};
+        },
+
+        /**
+         * Get X and Y axes.
+         */
+        getAxes: function(data, scales) {
+            var xAxis = d3.svg.axis()
+                .scale(scales.x)
+                .ticks(d3.time.day, 1)
+                .orient("bottom");
+
+            var maxPomodoros = (d3.max(data, function(d) { return d.pomodoros; }));
+            var yTicks = d3.min(20, maxPomodoros);
+            var yAxis = d3.svg.axis()
+                .scale(scales.y)
+                .tickFormat(d3.format("d"))
+                .ticks(yTicks)
+                .orient("left");
+
+            return {x: xAxis, y: yAxis};
+        },
+
+        /**
+         * Render the axes on the chart.
+         */
+        renderAxes: function(axes) {
+            this.xAxis
+                .transition()
+                .duration(1000)
+                .call(axes.x);
+
+            this.yAxis
+                .transition()
+                .duration(1000)
+                .call(axes.y);
+        },
+
+        /**
          * Display data on the chart.
          */
-        renderData: function() {
+        renderData: function(data, scales) {
             var that = this;
-            this.svg.selectAll('rect')
-                .data(this.data, function(d) { return d.date; })
-              .enter()
+
+            var bars = this.svg.selectAll('rect')
+                .data(data, function(d) { return d.date; });
+
+            bars.enter()
                 .append("rect")
-                .attr("class", "bar")
-                .attr("x", function(d) { return that.x(d.date); })
-                .attr("y", function(d) { return that.y(d.pomodoros); })
-                .attr("height", function(d) { return that.height - that.y(d.pomodoros); })
-                .attr("width", this.x.rangeBand());
+                .attr("class", "bar");
+
+            bars.transition()
+                .duration(1000)
+                .attr("x", function(d) { return scales.x(d.date); })
+                .attr("width", scales.x.rangeBand())
+                .attr("y", function(d) { return scales.y(d.pomodoros); })
+                .attr("height", function(d) { return that.height - scales.y(d.pomodoros); });
         },
 
         render: function() {
-            this.data = this.chartData();
-            this.renderChart();
-            this.renderAxes();
-            this.renderData();
+            var data = this.chartData();
+            var scales = this.getScales(data);
+            var axes = this.getAxes(data, scales);
+            this.renderAxes(axes);
+            this.renderData(data, scales);
             return this;
         }
     });

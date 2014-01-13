@@ -154,7 +154,7 @@ function(_, Backbone, $, Models, Views, utils) {
             }
         }
 
-        this.finishedPomodoros.fetch();
+        this.finishedPomodoros.fetch({silent: true});
     };
 
     App.prototype.run = function() {
