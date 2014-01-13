@@ -11,6 +11,10 @@ define(['js/app'], function(App) {
             clock.restore();
         });
 
+        beforeEach(function() {
+            localStorage.clear();
+        });
+
         describe('Notification', function() {
 
             it('should be displayed when a pomodoro is over', function() {
