@@ -16,6 +16,11 @@
                 <h1><a href="/">Pomodoro</a></h1>
             </li>
         </ul>
+        <section class="top-bar-section">
+            <ul class="left">
+                <li> <a href="#" data-reveal-id="configurationModal">Settings</a></li>
+            </ul>
+        </section>
     </nav>
 
     <div class="row">
@@ -28,27 +33,23 @@
             class="control start-control"
             data-action="start"
             data-type="pomodoro"
-            data-duration="1500000">Start</button>
-        <button
+            data-duration="1500000">Start</button><button
+
             id="start-break-btn"
             class="control start-control"
             data-action="start"
             data-type="break"
-            data-duration="300000">Break</button>
-        <button
+            data-duration="300000">Break</button><button
+
             id="start-lbreak-btn"
             class="control start-control"
             data-action="start"
             data-type="break"
-            data-duration="900000">Long break</button>
-        <button
+            data-duration="900000">Long break</button><button
+
             id="stop-btn"
             class="control stop-control"
             data-action="stop">Stop</button>
-    </div>
-
-    <div class="center">
-        <a href="#" data-reveal-id="configurationModal">Configure stuff and things</a>
     </div>
 
     <div id="statsChart"></div>
