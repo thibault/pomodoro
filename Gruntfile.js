@@ -138,7 +138,6 @@ module.exports = function(grunt) {
                         '<%= pomodoro.dist %>/js/{,*/}*.js',
                         '<%= pomodoro.dist %>/css/{,*/}*.css',
                         '<%= pomodoro.dist %>/img/{,*/}*.{gif,jpeg,jpg,png,webp}',
-                        '<%= pomodoro.dist %>/audio/*.{mp3,ogg,wav}',
                     ]
                 }
             }
