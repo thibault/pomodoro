@@ -10,6 +10,18 @@ module.exports = function(grunt) {
             dist: 'dist'
         },
 
+        clean: {
+            all: {
+                files: [{
+                    dot: true,
+                    src: [
+                        '<%= pomodoro.build %>/*',
+                        '<%= pomodoro.dist %>/*'
+                    ]
+                }]
+            }
+        },
+
         jshint: {
             options: {
                 jshintrc: 'jshintrc.json',
@@ -46,14 +58,106 @@ module.exports = function(grunt) {
                 }
             },
             files: ['test/casperjs/**/*.js']
-        }
+        },
 
+        requirejs: {
+            compile: {
+                options: {
+                    baseUrl: './src/',
+                    mainConfigFile: '<%= pomodoro.src %>/js/main.js',
+                    name: 'js/vendor/almond',
+                    out: '<%= pomodoro.dist %>/js/vendor/require.js',
+                    include: ['js/main'],
+                    insertRequire: ['js/main'],
+                    keepBuildDir: true
+                }
+            }
+        },
+
+        useminPrepare: {
+            options: {
+                staging: '<%= pomodoro.build %>',
+                dest: '<%= pomodoro.dist %>'
+            },
+            html: '<%= pomodoro.src %>/index.html'
+        },
+
+        usemin: {
+            options: {
+                assetsDirs: ['<%= pomodoro.dist %>']
+            },
+            html: ['<%= pomodoro.dist %>/index.html'],
+            css: ['<%= pomodoro.dist %>/css/*.css']
+        },
+
+        // Concat, uglify and cssmin are autoconfigured by useminPrepare
+        concat: {},
+        cssmin: {},
+        uglify: {},
+
+        htmlmin: {
+            dist: {
+                options: {},
+                files: [{
+                    expand: true,
+                    cwd: '<%= pomodoro.src %>',
+                    src: '*.html',
+                    dest: '<%= pomodoro.dist %>'
+                }]
+            }
+        },
+
+        copy: {
+            dist: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= pomodoro.src %>',
+                    dest: '<%= pomodoro.dist %>',
+                    src: [
+                        '*.{ico,png,txt}',
+                        '.htaccess',
+                        'img/*',
+                        'audio/*',
+                    ]
+                }]
+            },
+            styles: {
+                expand: true,
+                dot: true,
+                cwd: '<%= pomodoro.src %>/css',
+                dest: '<%= pomodoro.build %>/css',
+                src: '{,*/}*.css'
+            }
+        },
+
+        rev: {
+            dist: {
+                files: {
+                    src: [
+                        '<%= pomodoro.dist %>/js/{,*/}*.js',
+                        '<%= pomodoro.dist %>/css/{,*/}*.css',
+                        '<%= pomodoro.dist %>/img/{,*/}*.{gif,jpeg,jpg,png,webp}',
+                        '<%= pomodoro.dist %>/audio/*.{mp3,ogg,wav}',
+                    ]
+                }
+            }
+        },
     });
 
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-mocha');
     grunt.loadNpmTasks('grunt-casperjs');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-usemin');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-rev');
 
     grunt.registerTask('casper', ['connect', 'casperjs']);
 
@@ -62,7 +166,18 @@ module.exports = function(grunt) {
         'casper'
     ]);
 
+    grunt.registerTask('build', [
+        'clean:all',
+        'requirejs',
+        'useminPrepare',
+        'htmlmin',
+        'concat',
+        'cssmin',
+        'copy:dist',
+        'rev',
+        'usemin'
+    ]);
 
     // Default task(s).
-    grunt.registerTask('default', ['jshint', 'test']);
+    grunt.registerTask('default', ['jshint', 'test', 'build']);
 };
