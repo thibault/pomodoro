@@ -5,6 +5,7 @@ require.config({
         underscore: 'js/vendor/underscore',
         backbone: 'js/vendor/backbone',
         localstorage: 'js/vendor/backbone.localStorage',
+        d3: 'js/vendor/d3',
         chai: '../test/vendor/chai',
         mocha: '../test/vendor/mocha',
         sinon: '../test/vendor/sinon'
@@ -28,6 +29,9 @@ require.config({
         'backbone': {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
+        },
+        'd3': {
+            exports: 'd3'
         }
     }
 });

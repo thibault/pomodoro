@@ -6,7 +6,8 @@ require.config({
         backbone: 'js/vendor/backbone',
         localstorage: 'js/vendor/backbone.localStorage',
         foundation: 'js/vendor/foundation',
-        reveal: 'js/vendor/foundation.reveal'
+        reveal: 'js/vendor/foundation.reveal',
+        d3: 'js/vendor/d3'
     },
     shim: {
         underscore: {
@@ -15,6 +16,9 @@ require.config({
         backbone: {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
+        },
+        d3: {
+            exports: 'd3'
         },
         foundation: ['jquery'],
         reveal: ['foundation']
