@@ -25,7 +25,6 @@ function(_, Backbone, $, Models, Views, utils) {
      * Manually starts a pomodoro.
      *
      * Creates the pomodoro object, and run the countdown timer.
-     *
      */
     App.prototype.startPomodoro = function(options) {
         // If a pomodoro is already running, do nothing
