@@ -11,7 +11,7 @@ casper.test.begin('The pomodoro state is saved', function suite(test) {
         casper.evaluate(function() {
             localStorage.clear();
         }, {});
-        this.wait(100);
+        this.wait(500);
     });
 
     casper.then(function() {
@@ -26,8 +26,8 @@ casper.test.begin('The pomodoro state is saved', function suite(test) {
 
     casper.thenOpen(url);
 
-    casper.wait(100, function() {
-        test.assertSelectorHasText('#timer', '24:59');
+    casper.wait(1000, function() {
+        test.assertSelectorHasText('#timer', '24:58');
     });
 
     casper.run(function() {

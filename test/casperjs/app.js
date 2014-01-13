@@ -31,7 +31,7 @@ casper.test.begin('Start pomodoro button', function(test) {
         casper.evaluate(function() {
             localStorage.clear();
         }, {});
-        this.wait(100);
+        this.wait(500);
     });
 
     casper.then(function() {
@@ -62,7 +62,7 @@ casper.test.begin('Button activations', function(test) {
         casper.evaluate(function() {
             localStorage.clear();
         }, {});
-        this.wait(100);
+        this.wait(500);
     });
 
     casper.then(function() {
