@@ -6,7 +6,7 @@ define({
     prettifyTime: function(time) {
         var totalSeconds = Math.round(time / 1000);
         var minutes = parseInt(totalSeconds / 60);
-        seconds = totalSeconds % 60;
+        var seconds = totalSeconds % 60;
 
         var secondsStr;
         if (seconds < 10) {
@@ -15,6 +15,7 @@ define({
             secondsStr = '' + seconds;
         }
 
+        var minutesStr;
         if (minutes < 10) {
             minutesStr = '0' + minutes;
         } else {
