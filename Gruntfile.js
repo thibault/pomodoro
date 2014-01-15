@@ -119,6 +119,7 @@ module.exports = function(grunt) {
                         '.htaccess',
                         'img/*',
                         'audio/*',
+                        'manifest.appcache',
                     ]
                 }]
             },
