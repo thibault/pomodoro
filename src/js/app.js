@@ -19,8 +19,13 @@ function(_, Backbone, $, Models, Views, utils) {
         this.timerView._renderTitle = this.dynamicTitleCb.prop('checked');
         this.controlView = new Views.ControlView({el: '#control-bar'});
         this.configurationView = new Views.ConfigurationView({el: '#configuration-form'});
-        this.chartView = new Views.ChartView({
-            el: '#statsChart',
+
+        this.weekChartView = new Views.WeekChartView({
+            el: '#weekChart',
+            collection: this.finishedPomodoros
+        });
+        this.monthChartView = new Views.MonthChartView({
+            el: '#monthChart',
             collection: this.finishedPomodoros
         });
     };
@@ -161,7 +166,9 @@ function(_, Backbone, $, Models, Views, utils) {
         this.initializeViews();
         this.bindEvents();
         this.restoreState();
-        this.chartView.render();
+
+        this.weekChartView.render();
+        this.monthChartView.render();
     };
 
     return App;

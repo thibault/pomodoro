@@ -142,12 +142,12 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
     Views.ChartView = Backbone.View.extend({
         initialize: function() {
             this.initializeChart();
-            this.interval = d3.time.day;
-            this.dataProvider = new Data.Provider(this.collection, this.interval);
-            this.dataProvider.setBoundaries(
-                d3.time.monday.floor(new Date()),
-                d3.time.monday.ceil(new Date())
-            );
+
+            //this.dataProvider = new Data.Provider(this.collection, this.interval);
+            //this.dataProvider.setBoundaries(
+            //    d3.time.monday.floor(new Date()),
+            //    d3.time.monday.ceil(new Date())
+            //);
 
             _.bindAll(this, 'render');
             this.listenTo(this.collection, 'add', this.render);
@@ -268,6 +268,32 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
             this.renderAxes(axes);
             this.renderData(data, scales);
             return this;
+        }
+    });
+
+    Views.WeekChartView = Views.ChartView.extend({
+        initialize: function() {
+            Views.ChartView.prototype.initialize.apply(this);
+            this.interval = d3.time.day;
+
+            this.dataProvider = new Data.Provider(this.collection, this.interval);
+            this.dataProvider.setBoundaries(
+                d3.time.month.floor(new Date()),
+                d3.time.month.ceil(new Date())
+            );
+        }
+    });
+
+    Views.MonthChartView = Views.ChartView.extend({
+        initialize: function() {
+            Views.ChartView.prototype.initialize.apply(this);
+            this.interval = d3.time.week;
+
+            this.dataProvider = new Data.Provider(this.collection, this.interval);
+            this.dataProvider.setBoundaries(
+                d3.time.month.floor(new Date()),
+                d3.time.month.ceil(new Date())
+            );
         }
     });
 
