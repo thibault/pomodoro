@@ -1,7 +1,8 @@
 define([
-    'underscore', 'backbone', 'jquery', 'js/models', 'js/views', 'js/utils'
+    'underscore', 'backbone', 'jquery', 'd3', 'js/models', 'js/views', 'js/data',
+    'js/utils'
 ],
-function(_, Backbone, $, Models, Views, utils) {
+function(_, Backbone, $, d3, Models, Views, Data, utils) {
     "use strict";
 
     var App = function() {
@@ -20,13 +21,32 @@ function(_, Backbone, $, Models, Views, utils) {
         this.controlView = new Views.ControlView({el: '#control-bar'});
         this.configurationView = new Views.ConfigurationView({el: '#configuration-form'});
 
-        this.weekChartView = new Views.WeekChartView({
+        var weekDataProvider = new Data.Provider(
+            this.finishedPomodoros,
+            d3.time.day,
+            d3.time.day.offset(new Date(), -7),
+            d3.time.day(new Date())
+        );
+        this.weekChartView = new Views.ChartView({
             el: '#weekChart',
-            collection: this.finishedPomodoros
+            collection: this.finishedPomodoros,
+            interval: d3.time.day,
+            dateFormat: "%a %b %e",
+            dataProvider: weekDataProvider,
         });
-        this.monthChartView = new Views.MonthChartView({
+
+        var monthDataProvider = new Data.Provider(
+            this.finishedPomodoros,
+            d3.time.monday,
+            d3.time.week.offset(d3.time.week(new Date()), -10),
+            d3.time.week(new Date())
+        );
+        this.monthChartView = new Views.ChartView({
             el: '#monthChart',
-            collection: this.finishedPomodoros
+            collection: this.finishedPomodoros,
+            interval: d3.time.monday,
+            dateFormat: "Week %W, %b",
+            dataProvider: monthDataProvider,
         });
     };
 

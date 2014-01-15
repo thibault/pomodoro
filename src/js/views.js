@@ -1,4 +1,4 @@
-define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, Data) {
+define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
     "use strict";
 
     var Views = {};
@@ -140,15 +140,12 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
      * Display a wonderful chart of pomodoro counts.
      */
     Views.ChartView = Backbone.View.extend({
-        dateFormat: "%a %b %e",
-        initialize: function() {
+        initialize: function(options) {
             this.initializeChart();
 
-            //this.dataProvider = new Data.Provider(this.collection, this.interval);
-            //this.dataProvider.setBoundaries(
-            //    d3.time.monday.floor(new Date()),
-            //    d3.time.monday.ceil(new Date())
-            //);
+            // Required options for this view
+            var chartOptions = ['interval', 'dateFormat', 'dataProvider'];
+            _.extend(this, _.pick(options, chartOptions));
 
             _.bindAll(this, 'render');
             this.listenTo(this.collection, 'add', this.render);
@@ -238,7 +235,7 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
                 .attr("dx", "-.8em")
                 .attr("dy", ".15em")
                 .attr("transform", function(d) {
-                    return "rotate(-55)";
+                    return "rotate(-45)";
                 });
 
             this.yAxis
@@ -275,33 +272,6 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
             this.renderAxes(axes);
             this.renderData(data, scales);
             return this;
-        }
-    });
-
-    Views.WeekChartView = Views.ChartView.extend({
-        initialize: function() {
-            Views.ChartView.prototype.initialize.apply(this);
-            this.interval = d3.time.day;
-
-            this.dataProvider = new Data.Provider(this.collection, this.interval);
-            this.dataProvider.setBoundaries(
-                d3.time.month.floor(new Date()),
-                d3.time.month.ceil(new Date())
-            );
-        }
-    });
-
-    Views.MonthChartView = Views.ChartView.extend({
-        dateFormat: "Week %W, %b",
-        initialize: function() {
-            Views.ChartView.prototype.initialize.apply(this);
-            this.interval = d3.time.week;
-
-            this.dataProvider = new Data.Provider(this.collection, this.interval);
-            this.dataProvider.setBoundaries(
-                d3.time.month.floor(new Date()),
-                d3.time.month.ceil(new Date())
-            );
         }
     });
 

@@ -9,19 +9,12 @@ define(['d3'], function(d3) {
      * @interval: a d3.time.* object
      * @collection: a Backbone pomodoro collection
      */
-    Data.Provider = function(collection, interval) {
+    Data.Provider = function(collection, interval, from, to) {
         this.collection = collection;
         this.interval = interval;
-
-        this.from = undefined;
-        this.to = undefined;
-
-        _.bindAll(this, 'pomodoroFilter');
-    };
-
-    Data.Provider.prototype.setBoundaries = function(from, to) {
         this.from = from;
         this.to = to;
+        _.bindAll(this, 'pomodoroFilter');
     };
 
     /**
