@@ -1,4 +1,4 @@
-define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
+define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, Data) {
     "use strict";
 
     var Views = {};
@@ -136,39 +136,21 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
         }
     });
 
+    /**
+     * Display a wonderful chart of pomodoro counts.
+     */
     Views.ChartView = Backbone.View.extend({
         initialize: function() {
             this.initializeChart();
+            this.interval = d3.time.day;
+            this.dataProvider = new Data.Provider(this.collection, this.interval);
+            this.dataProvider.setBoundaries(
+                d3.time.monday.floor(new Date()),
+                d3.time.monday.ceil(new Date())
+            );
 
             _.bindAll(this, 'render');
             this.listenTo(this.collection, 'add', this.render);
-        },
-
-        /**
-         * Generate easily graphable data.
-         *
-         * From the current pomodoro collection, generates an array of objets
-         * of the following form:
-         *  [
-         *      {date: timestamp, pomodoros: x},
-         *      {date: timestamp, pomodoros: y},
-         *  ]
-         *
-         * We will group the pomodoros by day, i.e we need to extract the
-         * exact date of each pomodoro and convert it to a common date for
-         * each day.
-         */
-        chartData: function() {
-            var pomodoroSets = _.groupBy(this.collection.models, function(pomodoro) {
-                var date = new Date(pomodoro.get('startedAt'));
-                return new Date(date.getFullYear(), date.getMonth(), date.getDay()).getTime();
-            });
-
-            var format = d3.time.format("%Y-%m-%d");
-            var data = _.map(pomodoroSets, function(pomodoros, date) {
-                return {date: format(new Date(parseInt(date))), pomodoros: pomodoros.length};
-            });
-            return data;
         },
 
         /**
@@ -223,9 +205,13 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
          * Get X and Y axes.
          */
         getAxes: function(data, scales) {
+            var dateFormat = d3.time.format("%Y-%m-%d");
             var xAxis = d3.svg.axis()
                 .scale(scales.x)
-                .ticks(d3.time.day, 1)
+                .ticks(this.interval, 1)
+                .tickFormat(function(d) {
+                    return dateFormat(d);
+                })
                 .orient("bottom");
 
             var maxPomodoros = (d3.max(data, function(d) { return d.pomodoros; }));
@@ -276,7 +262,7 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
         },
 
         render: function() {
-            var data = this.chartData();
+            var data = this.dataProvider.getData();
             var scales = this.getScales(data);
             var axes = this.getAxes(data, scales);
             this.renderAxes(axes);
