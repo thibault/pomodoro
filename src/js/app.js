@@ -25,7 +25,7 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
             this.finishedPomodoros,
             d3.time.day,
             d3.time.day.offset(new Date(), -7),
-            d3.time.day(new Date())
+            d3.time.day.ceil(new Date())
         );
         this.weekChartView = new Views.ChartView({
             el: '#weekChart',
@@ -38,8 +38,8 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
         var monthDataProvider = new Data.Provider(
             this.finishedPomodoros,
             d3.time.monday,
-            d3.time.week.offset(d3.time.week(new Date()), -10),
-            d3.time.week(new Date())
+            d3.time.week.offset(new Date(), -10),
+            d3.time.week.ceil(new Date())
         );
         this.monthChartView = new Views.ChartView({
             el: '#monthChart',
