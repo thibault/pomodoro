@@ -11,7 +11,7 @@ Why is it the best?
 
 XXX is very cool for many reasons:
 
- * It's completly local, all data is stored in your own browser.
+ * It's completely local, all your data is stored in your own browser.
  * No need to create a useless account or sign in with a remote service.
  * Close the page, open it again: your timer keeps running.
  * Cool stats.
@@ -20,7 +20,9 @@ XXX is very cool for many reasons:
 Build your own
 --------------
 
-XXX is open-source and completely local, i.e it means you can build your own.
+XXX is open-source and completely local, i.e it means you can build your own,
+and you don't even need a web server of some kind.
+
 You will need git, npm and grunt installed.
 
  * git clone https://github.com/thibault/pomodoro.git
