@@ -1,0 +1,11 @@
+CACHE MANIFEST
+
+CACHE:
+*css
+*js
+*mp3
+*ogg
+*wav
+
+NETWORK:
+*
