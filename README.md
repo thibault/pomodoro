@@ -4,6 +4,8 @@ pomodoro
 We don't want to brag, but XXX is probably the best existing Pomodoro time
 tracker.
 
+[Try it here](http://pomodoro.miximum.fr/).
+
 Why is it the best?
 -------------------
 
