@@ -111,28 +111,84 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
      */
     Views.ConfigurationView = Backbone.View.extend({
         events: {
-            change: 'onConfigurationChange'
+            'change': 'onConfigurationChange',
+            'click input[type=checkbox]': 'toggleTitle'
         },
         buttons: [
-            { field: '#pomodoro-duration', button: '#start-pomodoro-btn' },
-            { field: '#break-duration', button: '#start-break-btn' },
-            { field: '#lbreak-duration', button: '#start-lbreak-btn' }
+            {
+                field: '#pomodoro-duration',
+                button: '#start-pomodoro-btn',
+                option: 'pomodoroDuration'
+            },
+            {
+                field: '#break-duration',
+                button: '#start-break-btn',
+                option: 'breakDuration'
+            },
+            {
+                field: '#lbreak-duration',
+                button: '#start-lbreak-btn',
+                option: 'lbreakDuration'
+            },
         ],
+
         initialize: function() {
+            this.dynamicTitleCb = this.$el.find('#dynamicTitleCb');
+
+            this.updateConfigurationForm();
+            this.updateTimerButtons();
+        },
+
+        /**
+         * Set configuration form default values to current
+         * configuration values.
+         */
+        updateConfigurationForm: function() {
+            this.dynamicTitleCb.prop('checked', this.model.get('dynamicTitleEnabled'));
+            var model = this.model;
             _.each(this.buttons, function(data) {
-                var button = $(data.button);
-                var ms = button.data('duration');
-                var input = $(data.field);
-                input.val(ms / 60000);
+                var field = $(data.field);
+                var value = model.get(data.option) / 60000;
+                field.val(value);
             });
         },
-        onConfigurationChange: function() {
+
+        /**
+         * Set the data-duration attributes on timer buttons.
+         */
+        updateTimerButtons: function() {
+            var model = this.model;
             _.each(this.buttons, function(data) {
-                var input = $(data.field);
-                var minutes = input.val();
                 var button = $(data.button);
-                button.attr('data-duration', minutes * 60 * 1000);
+                var value = model.get(data.option);
+                button.attr('data-duration', value);
             });
+
+        },
+
+        /**
+         * Updates the configuration model object with data from the
+         * configuration form.
+         */
+        onConfigurationChange: function() {
+            this.model.set('dynamicTitleEnabled', this.isTitleDynamic());
+            var model = this.model;
+            _.each(this.buttons, function(data) {
+                var field = $(data.field);
+                var value = field.val() * 60000;
+                model.set(data.option, value);
+            });
+
+            this.updateTimerButtons();
+            this.trigger('configurationChanged');
+        },
+
+        toggleTitle: function() {
+            this.trigger('dynamicTitleToggled');
+        },
+
+        isTitleDynamic: function() {
+            return this.dynamicTitleCb.prop('checked');
         }
     });
 

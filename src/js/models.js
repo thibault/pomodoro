@@ -88,5 +88,14 @@ define(['backbone', 'localstorage'], function(Backbone) {
         comparator: 'startedAt'
     });
 
+    Models.Configuration = Backbone.Model.extend({
+        defaults: {
+            pomodoroDuration: 25 * 60 * 1000,
+            breakDuration: 5 * 60 * 1000,
+            lbreakDuration: 15 * 60 * 1000,
+            dynamicTitleEnabled: true
+        }
+    });
+
     return Models;
 });

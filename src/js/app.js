@@ -8,18 +8,39 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
     var App = function() {
         this._currentPomodoro = null;
         this.finishedPomodoros = new Models.PomodoroCollection();
-        this.dynamicTitleCb = $('#dynamicTitleCb');
 
         _.extend(this, Backbone.Events);
         _.bindAll(this,
-            'onPomodoroFinished', 'onPomodoroCompleted', 'toggleTitle');
+            'onPomodoroFinished', 'onPomodoroCompleted', 'toggleTitle',
+            'updateConfiguration');
+    };
+
+    /**
+     * Creates a configuration objects. Either takes it's data from
+     * localstorage, or use default data.
+     */
+    App.prototype.configure = function() {
+        var configurationData = JSON.parse(localStorage.getItem('configurationData'));
+        configurationData = configurationData || {};
+        this.configuration = new Models.Configuration(configurationData);
+    };
+
+    /**
+     * Save the current configuration in localstorage
+     */
+    App.prototype.updateConfiguration = function() {
+        var configurationString = JSON.stringify(this.configuration.toJSON());
+        localStorage.setItem('configurationData', configurationString);
     };
 
     App.prototype.initializeViews = function() {
         this.timerView = new Views.TimerView({el: '#timer'});
-        this.timerView._renderTitle = this.dynamicTitleCb.prop('checked');
         this.controlView = new Views.ControlView({el: '#control-bar'});
-        this.configurationView = new Views.ConfigurationView({el: '#configuration-form'});
+        this.configurationView = new Views.ConfigurationView({
+            el: '#configuration-form',
+            model: this.configuration
+        });
+        this.toggleTitle();
 
         var weekDataProvider = new Data.Provider(
             this.finishedPomodoros,
@@ -134,12 +155,12 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
     App.prototype.bindEvents = function() {
         this.listenTo(this.controlView, 'timerStarted', this.startPomodoro);
         this.listenTo(this.controlView, 'timerInterrupted', this.interruptPomodoro);
-
-        this.dynamicTitleCb.on('click', this.toggleTitle);
+        this.listenTo(this.configurationView, 'dynamicTitleToggled', this.toggleTitle);
+        this.listenTo(this.configurationView, 'configurationChanged', this.updateConfiguration);
     };
 
     App.prototype.toggleTitle = function(event) {
-        this.timerView._renderTitle = this.dynamicTitleCb.prop('checked');
+        this.timerView._renderTitle = this.configurationView.isTitleDynamic();
     };
 
     /**
@@ -164,9 +185,10 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
      * already reached.
      */
     App.prototype.restoreState = function() {
-        var data = JSON.parse(localStorage.getItem('pomodoroData'));
-        if (data) {
-            var pomodoro = new Models.Pomodoro(data);
+        // Restore running pomodoro
+        var pomodoroData = JSON.parse(localStorage.getItem('pomodoroData'));
+        if (pomodoroData) {
+            var pomodoro = new Models.Pomodoro(pomodoroData);
 
             var remainingTime = pomodoro.remainingTime();
             if (remainingTime !== null) {
@@ -179,10 +201,12 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
             }
         }
 
+        // Restore pomodoro collection
         this.finishedPomodoros.fetch({silent: true});
     };
 
     App.prototype.run = function() {
+        this.configure();
         this.initializeViews();
         this.bindEvents();
         this.restoreState();
