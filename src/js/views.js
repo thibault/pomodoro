@@ -157,7 +157,7 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
          * Creates the initial svg structure for the chart.
          */
         initializeChart: function() {
-            this.margin = {top: 20, right: 20, bottom: 30, left: 40};
+            this.margin = {top: 20, right: 20, bottom: 100, left: 40};
             this.width = this.$el.width() - this.margin.left - this.margin.right;
             this.height = this.$el.height() - this.margin.top - this.margin.bottom;
 
@@ -208,7 +208,6 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
             var dateFormat = d3.time.format("%Y-%m-%d");
             var xAxis = d3.svg.axis()
                 .scale(scales.x)
-                .ticks(this.interval, 1)
                 .tickFormat(function(d) {
                     return dateFormat(d);
                 })
@@ -233,6 +232,14 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
                 .transition()
                 .duration(1000)
                 .call(axes.x);
+
+            this.xAxis.selectAll("text")
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", function(d) {
+                    return "rotate(-55)";
+                });
 
             this.yAxis
                 .transition()

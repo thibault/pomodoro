@@ -23,9 +23,9 @@ div.center {
 label.inline {
     display: inline;
 }
-div#statsChart {
+div.chart {
     width: 100%;
-    height: 200px;
+    height: 300px;
 }
 .bar {
     fill: steelblue;
