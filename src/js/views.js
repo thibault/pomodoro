@@ -311,6 +311,8 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
 
             bars.enter()
                 .append("rect")
+                .attr("y", that.height)
+                .attr("height", 0)
                 .attr("class", "bar");
 
             bars.transition()
