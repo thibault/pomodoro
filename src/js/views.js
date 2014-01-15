@@ -140,6 +140,7 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
      * Display a wonderful chart of pomodoro counts.
      */
     Views.ChartView = Backbone.View.extend({
+        dateFormat: "%a %b %e",
         initialize: function() {
             this.initializeChart();
 
@@ -187,7 +188,6 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
          * Generates the chart svg structure.
          */
         getScales: function(data) {
-            var format = d3.time.format("%Y-%m-%d");
             var xDomain = data.map(function(d) { return d.date; });
             var x = d3.scale.ordinal()
                 .domain(xDomain)
@@ -205,11 +205,11 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
          * Get X and Y axes.
          */
         getAxes: function(data, scales) {
-            var dateFormat = d3.time.format("%Y-%m-%d");
+            var format = d3.time.format(this.dateFormat);
             var xAxis = d3.svg.axis()
                 .scale(scales.x)
                 .tickFormat(function(d) {
-                    return dateFormat(d);
+                    return format(d);
                 })
                 .orient("bottom");
 
@@ -292,6 +292,7 @@ define(['backbone', 'd3', 'js/utils', 'js/data'], function(Backbone, d3, utils, 
     });
 
     Views.MonthChartView = Views.ChartView.extend({
+        dateFormat: "Week %W, %b",
         initialize: function() {
             Views.ChartView.prototype.initialize.apply(this);
             this.interval = d3.time.week;
