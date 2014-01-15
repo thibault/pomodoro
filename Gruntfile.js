@@ -143,6 +143,26 @@ module.exports = function(grunt) {
                 }
             }
         },
+
+        manifest: {
+            generate: {
+                options: {
+                    basePath: '<%= pomodoro.dist %>',
+                    network: ['*'],
+                    preferOnline: false,
+                    verbose: false,
+                    timestamp: true,
+                    hash: true,
+                    master: ['index.html']
+                },
+                src: [
+                    'css/**/*css',
+                    'js/**/*js',
+                    'audio/*',
+                ],
+                dest: '<%= pomodoro.dist %>/manifest.appcache'
+            }
+        },
     });
 
     grunt.loadNpmTasks('grunt-contrib-requirejs');
@@ -158,6 +178,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-rev');
+    grunt.loadNpmTasks('grunt-manifest');
 
     grunt.registerTask('casper', ['connect', 'casperjs']);
 
@@ -175,7 +196,8 @@ module.exports = function(grunt) {
         'cssmin',
         'copy:dist',
         'rev',
-        'usemin'
+        'usemin',
+        'manifest',
     ]);
 
     // Default task(s).
