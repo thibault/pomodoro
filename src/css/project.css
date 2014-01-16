@@ -23,6 +23,10 @@ div.center {
 label.inline {
     display: inline;
 }
+.alert-box.warning a {
+    color: white;
+    text-decoration: underline;
+}
 div.chart {
     width: 100%;
     height: 300px;
