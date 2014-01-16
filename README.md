@@ -35,11 +35,22 @@ Help, my stats disappeared when I changed browser / computer!
 
 Your data is saved in localStorage, e.g in your browser.
 
-Hugh, something is not working
-------------------------------
+Requirements
+------------
 
-We use modern web technologies, hence you muste use a modern web browser so
-every feature can work flawlessly.
+We use recent web apis, hence you must use a modern web browser to use
+XXX
+
+Here are the APIs we use:
+
+ * [localStoragea](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage)
+ * [audio](https://developer.mozilla.org/fr/docs/Web/HTML/Element/audio)
+ * [Notification](https://developer.mozilla.org/en-US/docs/Web/API/notification)
+ * [Svg](https://developer.mozilla.org/en-US/docs/Web/SVG)
+
+
+We are not really interested in working to support old and dusty browsers, so if
+you chose to use one of those, some features may be buggy or completely broken.
 
 Who made this?
 --------------
