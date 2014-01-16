@@ -28,7 +28,7 @@ You will need git, npm and grunt installed.
  * git clone https://github.com/thibault/pomodoro.git
  * cd pomodoro
  * npm install
- * <your browser> src/index.html
+ * &lt;your browser&gt; src/index.html
 
 Help, my stats disappeared when I changed browser / computer!
 -------------------------------------------------------------
