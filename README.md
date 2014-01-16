@@ -43,7 +43,7 @@ XXX
 
 Here are the APIs we use:
 
- * [localStoragea](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage)
+ * [localStorage](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage)
  * [audio](https://developer.mozilla.org/fr/docs/Web/HTML/Element/audio)
  * [Notification](https://developer.mozilla.org/en-US/docs/Web/API/notification)
  * [Svg](https://developer.mozilla.org/en-US/docs/Web/SVG)
