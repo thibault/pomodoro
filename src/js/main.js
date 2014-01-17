@@ -31,7 +31,7 @@ require.config({
 
 require(['js/app', 'jquery', 'modernizr', 'reveal'], function(App, $, Modernizr) {
     var checkCompatibility = function() {
-        var requiredApis = ['inlinesvg', 'audio', 'localstorage', 'notification'];
+        var requiredApis = ['inlinesvg', 'audio', 'localstorage'];
         var missingApi = false;
         for (var i = 0 ; i < requiredApis.length && !missingApi ; i++) {
             missingApi = !Modernizr[requiredApis[i]];
