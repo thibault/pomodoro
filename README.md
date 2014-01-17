@@ -1,15 +1,15 @@
-pomodoro
-========
+Pmdr: A nice looking Pomodoro time tracker
+==========================================
 
-We don't want to brag, but XXX is probably the best existing Pomodoro time
-tracker.
+We don't want to brag, but Pmdr is probably the best existing Pomodoro time
+tracker. And it's free — as in free beer AND as in free speech.
 
-[Try it here](http://pomodoro.miximum.fr/).
+[Try it here — pmdr.io](http://pmdr.io/).
 
 Why is it the best?
 -------------------
 
-XXX is very cool for many reasons:
+Pmdr is very cool for many reasons:
 
  * It's completely local, all your data is stored in your own browser.
  * No need to create a useless account or sign in with a remote service.
@@ -20,7 +20,7 @@ XXX is very cool for many reasons:
 Build your own
 --------------
 
-XXX is open-source and completely local, i.e it means you can build your own,
+Pmdr is open-source and completely local, i.e it means you can build your own,
 and you don't even need a web server of some kind.
 
 You will need git, npm and grunt installed.
@@ -39,7 +39,7 @@ Requirements
 ------------
 
 We use recent web apis, hence you must use a modern web browser to use
-XXX
+Pmdr
 
 Here are the APIs we use:
 
@@ -55,6 +55,17 @@ you chose to use one of those, some features may be buggy or completely broken.
 Who made this?
 --------------
 
-XXX was proudly created by [@namlook](http://elkorado.com/) and
+Pmdr was proudly created by [@namlook](http://elkorado.com/) and
 [@thibaultj](http://miximum.fr/) during a two days coding session. Then it was
-rewritten after the hangover.
+rewritten after the hangover. The name "Pmdr" was found by @namlook.
+
+
+Your app stink, and I don't like it!
+------------------------------------
+
+If you don't like Pmdr, you can try those other apps:
+
+ * [Pomodorock](http://brunobord.github.io/pomodorock/)
+ * [Tomatoi.st](http://tomatoi.st/)
+ * [Tomato.es](http://tomato.es/)
+
