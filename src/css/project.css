@@ -1,6 +1,9 @@
 .top-bar {
     margin-bottom: 2rem;
 }
+body > footer {
+    margin-bottom: 1em !important;
+}
 span#timer {
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-weight: 300;
