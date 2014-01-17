@@ -49,7 +49,7 @@ window.Modernizr = (function( window, document, undefined ) {
       };
     }
     else {
-      hasOwnProp = function (object, property) { 
+      hasOwnProp = function (object, property) {
         return ((property in object) && is(object.constructor.prototype[property], 'undefined'));
       };
     }
@@ -224,7 +224,7 @@ window.Modernizr = (function( window, document, undefined ) {
 
        }
 
-       return Modernizr; 
+       return Modernizr;
      };
 
 
@@ -259,13 +259,5 @@ window.Modernizr = (function( window, document, undefined ) {
     return Modernizr;
 
 })(this, this.document);
-// Notifications
-// By Theodoor van Donge
 
-// window.webkitNotifications is only used by Chrome 
-//	http://www.html5rocks.com/en/tutorials/notifications/quick/
-
-// window.Notification only exist in the draft specs 
-//	http://dev.w3.org/2006/webapi/WebNotifications/publish/Notifications.html#idl-if-Notification
-
-Modernizr.addTest('notification', !!Modernizr.prefixed('Notifications', window));;
+Modernizr.addTest('notification', !!Modernizr.prefixed('Notification', window));;
