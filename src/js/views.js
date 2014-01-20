@@ -10,7 +10,7 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
             this._renderTitle = false;
             this.render();
 
-            _.bindAll(this, 'render');
+            _.bindAll(this, 'render', 'startTicking');
         },
 
         /**
@@ -18,9 +18,25 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
          */
         startRunning: function(pomodoro) {
             this.model = pomodoro;
+            setTimeout(this.startTicking, 50);
+        },
+
+        /**
+         * Accurate timer hack.
+         *
+         * If we start the setInterval at the exact same time
+         * we start the pomodoro, the lack of accuracy of
+         * the setTimeout function will create an irregularity
+         * in the timer rendering.
+         *
+         * Hence, we wait a short time before starting the loop,
+         * so every time the `render` method is called, we are sure
+         * a different timer value will be displayed.
+         */
+        startTicking: function() {
             this.render();
             clearInterval(this._interval);
-            this._interval = setInterval(this.render, 100);
+            this._interval = setInterval(this.render, 1000);
         },
 
         /**
