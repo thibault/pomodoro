@@ -130,7 +130,7 @@ window.Modernizr = (function( window, document, undefined ) {
 
                             if (elem === false) return props[i];
 
-                            if (is(item, 'function')){
+                            if (is(item, 'function') && 'bind' in item){
                                 return item.bind(elem || obj);
                 }
 
