@@ -89,14 +89,20 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
             type: type
         });
         this._currentPomodoro.start();
+        this.runTimer();
+        this.saveState();
+    };
 
+    /**
+     * Render the timer and bind to events
+     * triggered by the current pomodoro.
+     */
+    App.prototype.runTimer = function() {
         this.timerView.startRunning(this._currentPomodoro);
         this.controlView.renderForPomodoro(this._currentPomodoro);
 
         this.listenTo(this._currentPomodoro, 'pomodoroCompleted', this.onPomodoroCompleted);
         this.listenTo(this._currentPomodoro, 'pomodoroFinished', this.onPomodoroFinished);
-
-        this.saveState();
     };
 
     /**
@@ -192,12 +198,10 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
 
             var remainingTime = pomodoro.remainingTime();
             if (remainingTime !== null) {
+                pomodoro.set('duration', remainingTime);
+                pomodoro.start();
                 this._currentPomodoro = pomodoro;
-                this.timerView.startRunning(this._currentPomodoro);
-                this.controlView.renderForPomodoro(this._currentPomodoro);
-
-                this.listenTo(this._currentPomodoro, 'pomodoroCompleted', this.onPomodoroCompleted);
-                this.listenTo(this._currentPomodoro, 'pomodoroFinished', this.onPomodoroFinished);
+                this.runTimer();
             }
         }
 
