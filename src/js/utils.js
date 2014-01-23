@@ -50,5 +50,13 @@ define({
                 });
             }
         }
+    },
+
+    extractProject: function(str) {
+        return '';
+    },
+
+    extractTags: function(str) {
+        return [];
     }
 });

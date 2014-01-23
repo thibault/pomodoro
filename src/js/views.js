@@ -221,6 +221,7 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
 
             _.bindAll(this, 'render');
             this.listenTo(this.collection, 'add', this.render);
+            this.listenTo(this.collection, 'change', this.render);
         },
 
         /**
@@ -353,8 +354,23 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
         events: {
             'submit': 'annotatePomodoro'
         },
+        initialize: function() {
+            this.input = this.$el.find('input[type="text"]');
+        },
         annotatePomodoro: function(event) {
             event.preventDefault();
+            var pomodoro = this.collection.last();
+            var annotation = this.input.val();
+
+            if (pomodoro && annotation) {
+                var project = utils.extractProject(annotation);
+                pomodoro.set('project', project);
+
+                var tags = utils.extractTags(annotation);
+                pomodoro.set('tags', tags);
+
+                pomodoro.save();
+            }
         }
     });
 
