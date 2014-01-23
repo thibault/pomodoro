@@ -37,31 +37,51 @@
         <a href="https://github.com/thibault/pomodoro/#requirements">You can learn more here.</a>
     </div>
 
+    <div class="row">
+    <div class="medium-6 columns medium-centered">
+    <div class="row collapse">
     <span id="timer">00:00</span>
     <div id="control-bar">
         <button
             id="start-pomodoro-btn"
-            class="control start-control"
+            class="control start-control medium-3"
             data-action="start"
             data-type="pomodoro"
             data-duration="1500000">Start</button><button
 
             id="start-break-btn"
-            class="control start-control"
+            class="control start-control medium-3"
             data-action="start"
             data-type="break"
             data-duration="300000">Break</button><button
 
             id="start-lbreak-btn"
-            class="control start-control"
+            class="control start-control medium-3"
             data-action="start"
             data-type="break"
-            data-duration="900000">Long break</button><button
+            data-duration="900000">Rest</button><button
 
             id="stop-btn"
-            class="control stop-control"
+            class="control stop-control medium-3"
             data-action="stop">Stop</button>
     </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="medium-6 columns medium-centered">
+        <form action="#">
+            <div class="row collapse">
+                <div class="small-9 columns">
+                    <input type="text" name="pomdoro-description" />
+                </div>
+                <div class="small-3 columns">
+                    <input type="submit" value="Save" class="button postfix" />
+                </div>
+            </div>
+        </form>
+    </div></div>
 
     <div class="row">
         <hr />
