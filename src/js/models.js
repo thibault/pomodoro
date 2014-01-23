@@ -12,7 +12,9 @@ define(['backbone', 'localstorage'], function(Backbone) {
             duration: 25 * 60 * 1000,
             startedAt: null,
             terminatedAt: null,
-            wasInterrupted: null
+            wasInterrupted: null,
+            project: null,
+            tags: []
         },
 
         initialize: function() {

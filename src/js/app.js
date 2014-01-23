@@ -36,6 +36,10 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
     App.prototype.initializeViews = function() {
         this.timerView = new Views.TimerView({el: '#timer'});
         this.controlView = new Views.ControlView({el: '#control-bar'});
+        this.annotationView = new Views.AnnotationView({
+            el: '#annotation-form',
+            collection: this.finishedPomodoros
+        });
         this.configurationView = new Views.ConfigurationView({
             el: '#configuration-form',
             model: this.configuration

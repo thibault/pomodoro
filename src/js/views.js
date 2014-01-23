@@ -349,5 +349,14 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
         }
     });
 
+    Views.AnnotationView = Backbone.View.extend({
+        events: {
+            'submit': 'annotatePomodoro'
+        },
+        annotatePomodoro: function(event) {
+            event.preventDefault();
+        }
+    });
+
     return Views;
 });
