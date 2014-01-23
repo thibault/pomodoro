@@ -17,12 +17,14 @@ define(['js/models', 'js/views'], function(Models, Views) {
             expect(view.render().$el.text()).to.be.equal('00:00');
         });
 
-        it('should be updated as soon as the pomodoro starts', function() {
+        it('should be updated shortly after the pomodoro starts', function() {
             var pomodoro = new Models.Pomodoro({duration: 10000});
             pomodoro.start();
 
             var view = new Views.TimerView();
             view.startRunning(pomodoro);
+
+            clock.tick(500);
 
             expect(view.$el.text()).to.be.equal('00:10');
         });
@@ -34,7 +36,7 @@ define(['js/models', 'js/views'], function(Models, Views) {
             var view = new Views.TimerView();
             view.startRunning(pomodoro);
 
-            clock.tick(1000);
+            clock.tick(1500);
             expect(view.$el.text()).to.be.equal('24:59');
 
             clock.tick(1000);
