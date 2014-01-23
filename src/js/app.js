@@ -46,6 +46,10 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
         });
         this.toggleTitle();
 
+        this.initializeChartViews();
+    };
+
+    App.prototype.initializeChartViews = function() {
         var weekDataProvider = new Data.Provider(
             this.finishedPomodoros,
             d3.time.day,
@@ -54,6 +58,13 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
         );
         this.weekChartView = new Views.ChartView({
             el: '#weekChart',
+            collection: this.finishedPomodoros,
+            interval: d3.time.day,
+            dateFormat: "%a %b %e",
+            dataProvider: weekDataProvider,
+        });
+        this.weekPieView = new Views.PieView({
+            el: '#weekPie',
             collection: this.finishedPomodoros,
             interval: d3.time.day,
             dateFormat: "%a %b %e",
@@ -68,6 +79,13 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
         );
         this.monthChartView = new Views.ChartView({
             el: '#monthChart',
+            collection: this.finishedPomodoros,
+            interval: d3.time.monday,
+            dateFormat: "Week %W, %b",
+            dataProvider: monthDataProvider,
+        });
+        this.monthPieView = new Views.PieView({
+            el: '#monthPie',
             collection: this.finishedPomodoros,
             interval: d3.time.monday,
             dateFormat: "Week %W, %b",
@@ -221,6 +239,8 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
 
         this.weekChartView.render();
         this.monthChartView.render();
+        this.weekPieView.render();
+        this.monthPieView.render();
     };
 
     return App;

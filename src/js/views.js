@@ -350,6 +350,127 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
         }
     });
 
+    /**
+     * Display a wonderful pie with pomodoros data
+     */
+    Views.PieView = Backbone.View.extend({
+        initialize: function(options) {
+            this.initializePie();
+
+            // Required options for this view
+            var pieOptions = ['interval', 'dateFormat', 'dataProvider'];
+            _.extend(this, _.pick(options, pieOptions));
+
+            _.bindAll(this, 'render');
+            this.listenTo(this.collection, 'add', this.render);
+            this.listenTo(this.collection, 'change', this.render);
+
+            var that = this;
+            setInterval(function() {
+                that.render();
+            }, 4000);
+        },
+
+        /**
+         * Creates the initial svg structure for the chart.
+         */
+        initializePie: function() {
+            this.margin = {top: 20, right: 20, bottom: 100, left: 40};
+            var width = this.$el.width() - this.margin.left - this.margin.right;
+            var height = this.$el.height() - this.margin.top - this.margin.bottom;
+
+            this.radius = Math.min(width, height) / 2;
+            this.color = d3.scale.category20();
+
+            this.pie = d3.layout.pie();
+
+            this.arc = d3.svg.arc()
+                .outerRadius(this.radius)
+                .innerRadius(50);
+
+            this.svg = d3.select(this.el).append("svg")
+                .attr('class', 'chart')
+                .attr("width", this.$el.width())
+                .attr("height", this.$el.height())
+              .append("g")
+                .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+
+            this.piesvg = this.svg.append("g")
+                .attr('class', 'pie')
+                .attr("transform", "translate(" + this.$el.width() / 2 + "," + this.$el.height() / 2 + ")");
+
+            this.piesvg.append("text")
+                .attr("dy", ".35em")
+                .style("text-anchor", "middle")
+                .text('Projects');
+        },
+
+        /**
+         * Display data on the chart.
+         */
+        renderData: function(data) {
+            var that = this;
+
+            this.pie
+                .value(function(d) { return d.count; })
+                .sort(null);
+
+            var path = this.piesvg.datum(data).selectAll('path')
+                .data(this.pie);
+
+            path.enter()
+                .append("path")
+                .attr("fill", function(d, i) { return that.color(i); })
+                .attr("d", that.arc)
+                .each(function(d) { this._current = d; });
+
+            path.exit()
+                .remove();
+
+            var arcTween = function(a) {
+                var i = d3.interpolate(this._current, a);
+                this._current = i(0);
+                return function(t) {
+                    return that.arc(i(t));
+                };
+            };
+
+            path
+                .transition()
+                .duration(750)
+                .attrTween('d', arcTween);
+        },
+
+        renderLegend: function(data) {
+            this.legend = this.svg.selectAll('g.legend')
+                .data(data);
+
+            var that = this;
+            var enter = this.legend.enter()
+                .append('g')
+                .attr('class', 'legend')
+                .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+            enter.append('rect')
+                .attr("width", 18)
+                .attr("height", 18)
+                .style('fill', function(d, i) { return that.color(i); });
+
+            enter.append("text")
+                .attr("x", 24)
+                .attr("y", 9)
+                .attr("dy", ".35em")
+                .text(function(d) { return d.project; });
+        },
+
+        render: function() {
+            var data = this.dataProvider.getProjectsData();
+            this.renderLegend(data);
+            this.renderData(data);
+            return this;
+        }
+    });
+
     Views.AnnotationView = Backbone.View.extend({
         events: {
             'submit': 'annotatePomodoro'

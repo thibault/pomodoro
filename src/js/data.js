@@ -70,5 +70,20 @@ define(['d3'], function(d3) {
         return padCount;
     };
 
+    /**
+     * Returns an array of objects:
+     *  [
+     *      {project: <String>, count: <Number>},
+     *      {project: <String>, count: <Number>},
+     *  ]
+     */
+    Data.Provider.prototype.getProjectsData = function() {
+        return [
+            {project: 'none', count: Math.floor(Math.random() * 15)},
+            {project: 'toto', count: Math.floor(Math.random() * 15)},
+            {project: 'tata', count: Math.floor(Math.random() * 15)}
+        ];
+    };
+
     return Data;
 });
