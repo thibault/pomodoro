@@ -52,8 +52,19 @@ define({
         }
     },
 
+    /**
+     * Extract the project from the given annotatin.
+     *
+     * the project is the first word prefixed with '@'.
+     */
     extractProject: function(str) {
-        return '';
+        var re = /@(\w+)/;
+        var groups = str.match(re);
+        if (groups) {
+            return groups[1];
+        } else {
+            return null;
+        }
     },
 
     extractTags: function(str) {
