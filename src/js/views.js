@@ -371,6 +371,8 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
 
                 pomodoro.save();
             }
+
+            this.input.val('');
         }
     });
 
