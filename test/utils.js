@@ -26,5 +26,16 @@ define(['js/utils'], function(utils) {
             expect(utils.extractProject('@dipsy, @lala and @tinkiwinki are ugly')).to.be.equal('dipsy');
         });
     });
+
+    describe('extractTags', function() {
+        it('should return an array of strings', function() {
+            expect(utils.extractTags('What a #great bunch of #tags we have')).to.be.eql(['great', 'tags']);
+            expect(utils.extractTags('#tag1 yeah #tag2!')).to.be.eql(['tag1', 'tag2']);
+        });
+
+        it('should return an empty array if no tags were found', function() {
+            expect(utils.extractTags('I hate tags.')).to.be.eql([]);
+        });
+    });
 });
 

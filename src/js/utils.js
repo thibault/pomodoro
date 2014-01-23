@@ -67,7 +67,17 @@ define({
         }
     },
 
+    /**
+     * Extract words prefixed with '#'.
+     */
     extractTags: function(str) {
-        return [];
+        var tags = [];
+        var re = new RegExp(/#(\w+)/g);
+        var match = re.exec(str);
+        while (match !== null) {
+            tags.push(match[1]);
+            match = re.exec(str);
+        }
+        return tags;
     }
 });
