@@ -22,6 +22,9 @@ div#control-bar {
 div.center {
     text-align: center;
 }
+body > footer {
+    text-align: center;
+}
 label.inline {
     display: inline;
 }
