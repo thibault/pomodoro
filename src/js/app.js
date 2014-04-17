@@ -50,46 +50,25 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
     };
 
     App.prototype.initializeChartViews = function() {
-        var weekDataProvider = new Data.Provider(
+        var dataProvider = new Data.Provider(
             this.finishedPomodoros,
             d3.time.day,
-            d3.time.day.offset(new Date(), -7),
+            d3.time.day.offset(new Date(), -30),
             d3.time.day.ceil(new Date())
         );
-        this.weekChartView = new Views.ChartView({
-            el: '#weekChart',
+        this.chartView = new Views.ChartView({
+            el: '#chart',
             collection: this.finishedPomodoros,
             interval: d3.time.day,
             dateFormat: "%a %b %e",
-            dataProvider: weekDataProvider,
+            dataProvider: dataProvider,
         });
-        this.weekPieView = new Views.PieView({
-            el: '#weekPie',
+        this.pieView = new Views.PieView({
+            el: '#pie',
             collection: this.finishedPomodoros,
             interval: d3.time.day,
             dateFormat: "%a %b %e",
-            dataProvider: weekDataProvider,
-        });
-
-        var monthDataProvider = new Data.Provider(
-            this.finishedPomodoros,
-            d3.time.monday,
-            d3.time.week.offset(new Date(), -10),
-            d3.time.week.ceil(new Date())
-        );
-        this.monthChartView = new Views.ChartView({
-            el: '#monthChart',
-            collection: this.finishedPomodoros,
-            interval: d3.time.monday,
-            dateFormat: "Week %W, %b",
-            dataProvider: monthDataProvider,
-        });
-        this.monthPieView = new Views.PieView({
-            el: '#monthPie',
-            collection: this.finishedPomodoros,
-            interval: d3.time.monday,
-            dateFormat: "Week %W, %b",
-            dataProvider: monthDataProvider,
+            dataProvider: dataProvider,
         });
     };
 
@@ -237,10 +216,8 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
         this.bindEvents();
         this.restoreState();
 
-        this.weekChartView.render();
-        this.monthChartView.render();
-        this.weekPieView.render();
-        this.monthPieView.render();
+        this.chartView.render();
+        this.pieView.render();
     };
 
     return App;
