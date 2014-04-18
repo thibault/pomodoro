@@ -228,67 +228,61 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
          * Creates the initial svg structure for the chart.
          */
         initializeChart: function() {
-            this.margin = {top: 20, right: 20, bottom: 100, left: 40};
+            this.margin = {top: 20, right: 20, bottom: 100, left: 100};
             this.width = this.$el.width() - this.margin.left - this.margin.right;
-            this.height = this.$el.height() - this.margin.top - this.margin.bottom;
+            this.height = 200;
+            this.barHeight = 25;
 
-            this.svg = d3.select(this.el).append("svg")
+            this.rootSvg = d3.select(this.el).append("svg")
                 .attr('class', 'chart')
                 .attr("width", this.$el.width())
-                .attr("height", this.$el.height())
+                .attr("height", 300);
+            this.svg = this.rootSvg
               .append("g")
                 .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
             this.xAxis = this.svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + this.height + ")");
+                .attr("class", "x axis");
 
             this.yAxis = this.svg.append("g")
                 .attr("class", "y axis");
-            this.yAxis
-                .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Pomodoros");
         },
 
         /**
          * Generates the chart svg structure.
          */
         getScales: function(data) {
-            var xDomain = data.map(function(d) { return d.date; });
-            var x = d3.scale.ordinal()
+            var xDomain = [0, d3.max(data, function(d) { return d.pomodoros; })];
+            var x = d3.scale.linear()
                 .domain(xDomain)
-                .rangeRoundBands([0, this.width], 0.1);
+                .range([0, this.width]);
 
-            var yDomain = [0, d3.max(data, function(d) { return d.pomodoros; })];
-            var y = d3.scale.linear()
+            var yDomain = data.map(function(d) { return d.date; });
+            var y = d3.scale.ordinal()
                 .domain(yDomain)
-                .range([this.height, 0]);
+                .rangeRoundBands([this.height, 0]);
 
             return {x: x, y: y};
         },
 
         /**
-         * Get X and Y axes.
+         * Get X and Y axis.
          */
         getAxes: function(data, scales) {
-            var format = d3.time.format(this.dateFormat);
+            var maxPomodoros = (d3.max(data, function(d) { return d.pomodoros; }));
+            var xTicks = d3.min(20, maxPomodoros);
             var xAxis = d3.svg.axis()
                 .scale(scales.x)
+                .tickFormat(d3.format("d"))
+                .ticks(xTicks)
+                .orient("top");
+
+            var format = d3.time.format(this.dateFormat);
+            var yAxis = d3.svg.axis()
+                .scale(scales.y)
                 .tickFormat(function(d) {
                     return format(d);
                 })
-                .orient("bottom");
-
-            var maxPomodoros = (d3.max(data, function(d) { return d.pomodoros; }));
-            var yTicks = d3.min(20, maxPomodoros);
-            var yAxis = d3.svg.axis()
-                .scale(scales.y)
-                .tickFormat(d3.format("d"))
-                .ticks(yTicks)
                 .orient("left");
 
             return {x: xAxis, y: yAxis};
@@ -298,23 +292,23 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
          * Render the axes on the chart.
          */
         renderAxes: function(axes) {
-            this.xAxis
-                .transition()
-                .duration(1000)
-                .call(axes.x);
-
-            this.xAxis.selectAll("text")
-                .style("text-anchor", "end")
-                .attr("dx", "-.8em")
-                .attr("dy", ".15em")
-                .attr("transform", function(d) {
-                    return "rotate(-45)";
-                });
+            //this.xAxis
+            //    .transition()
+            //    .duration(1000)
+            //    .call(axes.x);
 
             this.yAxis
                 .transition()
                 .duration(1000)
                 .call(axes.y);
+
+            //this.yAxis.selectAll("text")
+            //    .style("text-anchor", "end")
+            //    .attr("dx", "-.8em")
+            //    .attr("dy", ".15em")
+            //    .attr("transform", function(d) {
+            //        return "rotate(-30)";
+            //    });
         },
 
         /**
@@ -328,20 +322,27 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
 
             bars.enter()
                 .append("rect")
-                .attr("y", that.height)
-                .attr("height", 0)
+                .attr("x", 0)
+                .attr("y", function(d) { return scales.y(d.date); })
+                .attr("height", this.barHeight - 2)
+                .attr("width", 0)
                 .attr("class", "bar");
 
             bars.transition()
                 .duration(1000)
-                .attr("x", function(d) { return scales.x(d.date); })
-                .attr("width", scales.x.rangeBand())
-                .attr("y", function(d) { return scales.y(d.pomodoros); })
-                .attr("height", function(d) { return that.height - scales.y(d.pomodoros); });
+                .attr("y", function(d) { return scales.y(d.date); })
+                .attr("width", function(d) { return scales.x(d.pomodoros); });
+        },
+
+        updateHeight: function(data) {
+            this.height = this.barHeight * data.length;
+            this.$el.css("height", this.height);
+            this.rootSvg.attr("height", this.height);
         },
 
         render: function() {
             var data = this.dataProvider.getData();
+            this.updateHeight(data);
             var scales = this.getScales(data);
             var axes = this.getAxes(data, scales);
             this.renderAxes(axes);

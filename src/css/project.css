@@ -46,6 +46,6 @@ div.pie {
     stroke: #000;
     shape-rendering: crispEdges;
 }
-.x.axis path {
+.axis path {
     display: none;
 }
