@@ -317,21 +317,32 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
         renderData: function(data, scales) {
             var that = this;
 
-            var bars = this.svg.selectAll('rect')
+            var bars = this.svg.selectAll('g.bar')
                 .data(data, function(d) { return d.date; });
 
-            bars.enter()
-                .append("rect")
-                .attr("x", 0)
-                .attr("y", function(d) { return scales.y(d.date); })
-                .attr("height", this.barHeight - 2)
-                .attr("width", 0)
-                .attr("class", "bar");
+            bars.enter().append('g')
+                .attr("class", "bar")
+                .attr("transform", function(d, i) { return "translate(0," + scales.y(d.date) + ")"; })
+                .each(function(d) {
+                    d3.select(this).append("rect")
+                        .attr("height", that.barHeight - 2)
+                        .attr("width", 0);
 
-            bars.transition()
+                    d3.select(this).append("text")
+                        .attr("x", function(d) { return 0; })
+                        .attr("y", function(d) { return that.barHeight / 2; })
+                        .attr("dy", ".35em");
+                });
+
+            bars.select('rect').transition()
                 .duration(1000)
-                .attr("y", function(d) { return scales.y(d.date); })
                 .attr("width", function(d) { return scales.x(d.pomodoros); });
+
+            bars.select('text')
+                .text(function(d) { return d.pomodoros > 0 ? d.pomodoros : ''; })
+              .transition()
+                .duration(1000)
+                .attr("x", function(d) { return scales.x(d.pomodoros) + 3; });
         },
 
         updateHeight: function(data) {

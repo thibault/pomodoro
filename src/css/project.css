@@ -34,7 +34,7 @@ div.pie {
     width: 100%;
     height: 300px;
 }
-.bar {
+.bar rect {
     fill: steelblue;
 }
 .axis text {
