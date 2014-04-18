@@ -376,29 +376,26 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
             _.bindAll(this, 'render');
             this.listenTo(this.collection, 'add', this.render);
             this.listenTo(this.collection, 'change', this.render);
-
-            var that = this;
-            setInterval(function() {
-                that.render();
-            }, 4000);
         },
 
         /**
          * Creates the initial svg structure for the chart.
          */
         initializePie: function() {
-            this.margin = {top: 20, right: 20, bottom: 100, left: 40};
+            this.margin = {top: 20, right: 20, bottom: 100, left: 20};
             var width = this.$el.width() - this.margin.left - this.margin.right;
             var height = this.$el.height() - this.margin.top - this.margin.bottom;
 
-            this.radius = Math.min(width, height) / 2;
+            this.radius = Math.min(width, height)/ 2;
             this.color = d3.scale.category20();
 
-            this.pie = d3.layout.pie();
+            this.pie = d3.layout.pie()
+                .value(function(d) { return d.count; })
+                .sort(null);
 
             this.arc = d3.svg.arc()
                 .outerRadius(this.radius)
-                .innerRadius(50);
+                .innerRadius(this.radius - 40);
 
             this.svg = d3.select(this.el).append("svg")
                 .attr('class', 'chart')
@@ -423,15 +420,11 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
         renderData: function(data) {
             var that = this;
 
-            this.pie
-                .value(function(d) { return d.count; })
-                .sort(null);
-
             var path = this.piesvg.datum(data).selectAll('path')
                 .data(this.pie);
 
             path.enter()
-                .append("path")
+                .append('path')
                 .attr("fill", function(d, i) { return that.color(i); })
                 .attr("d", that.arc)
                 .each(function(d) { this._current = d; });
@@ -447,32 +440,40 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
                 };
             };
 
-            path
-                .transition()
-                .duration(750)
-                .attrTween('d', arcTween);
+            path.transition()
+                .duration(1000)
+                .attrTween("d", arcTween);
         },
 
         renderLegend: function(data) {
-            this.legend = this.svg.selectAll('g.legend')
-                .data(data);
-
             var that = this;
-            var enter = this.legend.enter()
-                .append('g')
-                .attr('class', 'legend')
-                .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-            enter.append('rect')
-                .attr("width", 18)
-                .attr("height", 18)
-                .style('fill', function(d, i) { return that.color(i); });
+            var legendArc = d3.svg.arc()
+                .innerRadius(this.radius + 35)
+                .outerRadius(this.radius + 35);
 
-            enter.append("text")
-                .attr("x", 24)
-                .attr("y", 9)
+            var legend = this.piesvg.datum(data).selectAll('text.legend')
+                .data(this.pie);
+
+            legend.enter()
+                .append('text')
                 .attr("dy", ".35em")
-                .text(function(d) { return d.project; });
+                .attr("text-anchor", "middle")
+                .attr('class', 'legend')
+                .attr("transform", function(d) {
+                    return "translate(" + legendArc.centroid(d) + ")";
+                });
+
+            legend.exit()
+                .remove();
+
+            legend
+                .text(function(d) { return d.data.project; })
+              .transition()
+                .duration(1000)
+                .attr("transform", function(d) {
+                    return "translate(" + legendArc.centroid(d) + ")";
+                });
         },
 
         render: function() {

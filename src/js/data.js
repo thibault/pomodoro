@@ -71,6 +71,22 @@ define(['d3'], function(d3) {
     };
 
     /**
+     * Returns an associative array of the form:
+     * [project] = count
+     */
+    Data.Provider.prototype.countProjectsByDate = function() {
+        var that = this;
+        var pomodoros = this.collection.filter(this.pomodoroFilter);
+
+        var countData = _.countBy(pomodoros, function(pomodoro) {
+            var date = new Date(pomodoro.get('startedAt'));
+            return that.interval.floor(date).getTime();
+        });
+        console.log(countData);
+        return countData;
+    };
+
+    /**
      * Returns an array of objects:
      *  [
      *      {project: <String>, count: <Number>},
@@ -78,11 +94,14 @@ define(['d3'], function(d3) {
      *  ]
      */
     Data.Provider.prototype.getProjectsData = function() {
-        return [
-            {project: 'none', count: Math.floor(Math.random() * 15)},
-            {project: 'toto', count: Math.floor(Math.random() * 15)},
-            {project: 'tata', count: Math.floor(Math.random() * 15)}
-        ];
+        var count = this.collection.countBy('project');
+        var associativeCount = _.map(count, function(count, prj) {
+            if (prj == 'null') {
+                prj = 'ND';
+            }
+            return {project: prj, count: count};
+        });
+        return associativeCount;
     };
 
     return Data;
