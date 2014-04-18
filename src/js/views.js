@@ -228,7 +228,7 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
          * Creates the initial svg structure for the chart.
          */
         initializeChart: function() {
-            this.margin = {top: 20, right: 20, bottom: 100, left: 100};
+            this.margin = {top: 20, right: 20, bottom: 100, left: 80};
             this.width = this.$el.width() - this.margin.left - this.margin.right;
             this.height = 200;
             this.barHeight = 25;
@@ -322,7 +322,7 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
 
             bars.enter().append('g')
                 .attr("class", "bar")
-                .attr("transform", function(d, i) { return "translate(0," + scales.y(d.date) + ")"; })
+                .attr("transform", function(d, i) { return "translate(2," + scales.y(d.date) + ")"; })
                 .each(function(d) {
                     d3.select(this).append("rect")
                         .attr("height", that.barHeight - 2)
