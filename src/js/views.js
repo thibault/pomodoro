@@ -506,7 +506,14 @@ define(['backbone', 'd3', 'js/utils'], function(Backbone, d3, utils) {
                 pomodoro.save();
             }
 
+            this.hide();
+        },
+        show: function() {
+            this.$el.slideDown();
+        },
+        hide: function() {
             this.input.val('');
+            this.$el.slideUp();
         }
     });
 

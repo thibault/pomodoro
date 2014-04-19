@@ -126,6 +126,7 @@ function(_, Backbone, $, d3, Models, Views, Data, utils) {
         if (this._currentPomodoro.get('type') === 'pomodoro') {
             this.finishedPomodoros.add(this._currentPomodoro);
             this._currentPomodoro.save();
+            this.annotationView.show();
         }
     };
 
