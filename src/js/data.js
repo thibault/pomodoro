@@ -70,5 +70,39 @@ define(['d3'], function(d3) {
         return padCount;
     };
 
+    /**
+     * Returns an associative array of the form:
+     * [project] = count
+     */
+    Data.Provider.prototype.countProjectsByDate = function() {
+        var that = this;
+        var pomodoros = this.collection.filter(this.pomodoroFilter);
+
+        var countData = _.countBy(pomodoros, function(pomodoro) {
+            var date = new Date(pomodoro.get('startedAt'));
+            return that.interval.floor(date).getTime();
+        });
+        console.log(countData);
+        return countData;
+    };
+
+    /**
+     * Returns an array of objects:
+     *  [
+     *      {project: <String>, count: <Number>},
+     *      {project: <String>, count: <Number>},
+     *  ]
+     */
+    Data.Provider.prototype.getProjectsData = function() {
+        var count = this.collection.countBy('project');
+        var associativeCount = _.map(count, function(count, prj) {
+            if (prj == 'null') {
+                prj = 'ND';
+            }
+            return {project: prj, count: count};
+        });
+        return associativeCount;
+    };
+
     return Data;
 });
