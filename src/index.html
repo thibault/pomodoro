@@ -25,6 +25,7 @@
                 <li> <a href="#" data-reveal-id="configurationModal">Settings</a></li>
             </ul>
             <ul class="right">
+                <li> <a href="#" data-reveal-id="helpModal">Need some help?</a></li>
                 <li> <a href="https://github.com/thibault/pomodoro">Fork on github</a></li>
             </ul>
         </section>
@@ -116,6 +117,14 @@
             <input type="checkbox" id="dynamicTitleCb" />
         </form>
         <a class="close-reveal-modal">&#215;</a>
+    </div>
+
+    <div id="helpModal" class="reveal-modal small" data-reveal>
+        <h2>Annotate your pomodoro</h2>
+        <p>Once a pomodoro is finished, you will be able to annotate it.</p>
+        <p>Set the pomodoro project or client by prefixing it with "@".
+            Add as many tags as you want by prefixing them with "#".</p>
+        <p>Example: "Fixing #bugs for @ProjectX".</p>
     </div>
 
     <audio id="audioAlert">
